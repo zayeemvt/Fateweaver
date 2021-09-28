@@ -6,18 +6,43 @@ The main file for the Fateweaver bot.
 
 """
 
+import os
+import discord
+
+from dotenv import load_dotenv
+
 from tarot_deck import Deck
 from tarot_deck import Diviner
 
-if __name__ == '__main__':
-    deck = Deck()
+## Discord bot script
+load_dotenv()
+TOKEN = os.getenv('DISCORD_TOKEN')
+GUILD = os.getenv('DISCORD_GUILD')
+
+client = discord.Client()
+
+@client.event
+async def on_ready():
+    for guild in client.guilds:
+        if guild.name == GUILD:
+            break
+
+    print(
+        f'{client.user} is connected to the following guild:\n'
+        f'{guild.name}(id: {guild.id})'
+        )
+
+client.run(TOKEN)
+
+
+## Command line functions
+def basicTest(deck, player):
     print("\nBase:")
     print(deck)
     print("\nShuffled:")
     # deck.shuffle()
     # print(deck)
 
-    player = Diviner()
     player.shuffleDeck(deck)
     print(deck)
 
@@ -42,3 +67,8 @@ if __name__ == '__main__':
     print(deck)
     print(len(deck.cards))
 
+if __name__ == '__main__':
+    deck = Deck()
+    player = Diviner()
+
+    basicTest(deck, player)
