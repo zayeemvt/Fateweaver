@@ -8,6 +8,7 @@ The main file for the Fateweaver bot.
 
 import os
 import discord
+from discord.ext import commands
 
 from dotenv import load_dotenv
 
@@ -19,20 +20,59 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-client = discord.Client()
+# client = discord.Client()
 
-@client.event
+# @client.event
+# async def on_ready():
+#     for guild in client.guilds:
+#         if guild.name == GUILD:
+#             break
+
+#     print(
+#         f'{client.user} is connected to the following guild:\n'
+#         f'{guild.name}(id: {guild.id})'
+#         )
+
+# client.run(TOKEN)
+
+bot = commands.Bot(command_prefix="~")
+
+@bot.event
 async def on_ready():
-    for guild in client.guilds:
-        if guild.name == GUILD:
-            break
+    print(f'{bot.user.name} connected')
 
-    print(
-        f'{client.user} is connected to the following guild:\n'
-        f'{guild.name}(id: {guild.id})'
-        )
+@bot.command()
+async def ping(ctx):
+    await ctx.channel.send("pong")
 
-client.run(TOKEN)
+@bot.command()
+async def echo(ctx, *args):
+    response = ""
+    
+    for arg in args:
+        response = response + " " + arg
+
+    await ctx.channel.send(response)
+
+bot.run(TOKEN)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## Command line functions
