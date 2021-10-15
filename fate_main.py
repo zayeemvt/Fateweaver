@@ -35,28 +35,54 @@ GUILD = os.getenv('DISCORD_GUILD')
 
 # client.run(TOKEN)
 
+# bot = commands.Bot(command_prefix="~")
+
+# @bot.event
+# async def on_ready():
+#     print(f'{bot.user.name} connected')
+
+# @bot.command()
+# async def ping(ctx):
+#     await ctx.channel.send("pong")
+
+# @bot.command()
+# async def echo(ctx, *args):
+#     response = ""
+    
+#     for arg in args:
+#         response = response + " " + arg
+
+#     await ctx.channel.send(response)
+
+# bot.run(TOKEN)
+
 bot = commands.Bot(command_prefix="~")
 
-@bot.event
-async def on_ready():
-    print(f'{bot.user.name} connected')
+class Fateweaver(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+        self.deck_list = []
+        self.player_list = []
 
-@bot.command()
-async def ping(ctx):
-    await ctx.channel.send("pong")
+    @commands.Cog.listener()
+    async def on_ready(self):
+        print(f'{self.bot.user.name} connected')
 
-@bot.command()
-async def echo(ctx, *args):
-    response = ""
-    
-    for arg in args:
-        response = response + " " + arg
+    @commands.command()
+    async def ping(self,ctx):
+        await ctx.channel.send("pong")
 
-    await ctx.channel.send(response)
+    @commands.command()
+    async def echo(self, ctx, *args):
+        response = ""
+        
+        for arg in args:
+            response = response + " " + arg
 
+        await ctx.channel.send(response)
+
+bot.add_cog(Fateweaver(bot))
 bot.run(TOKEN)
-
-
 
 
 
