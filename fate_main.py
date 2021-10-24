@@ -19,6 +19,7 @@ GUILD = os.getenv('DISCORD_GUILD')
 bot = commands.Bot(command_prefix="~")
 
 bot.load_extension("fate_commands")
+bot.load_extension("fate_error")
 
 bot.run(TOKEN)
 

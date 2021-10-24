@@ -1,0 +1,179 @@
+{
+    "cards": [
+        {
+            "number":"0",
+            "name":"The Fool",
+            "keywords":["fool"],
+            "description":"Igor",
+            "image":"https://static.wikia.nocookie.net/megamitensei/images/5/53/Fool-0.png"
+        },
+
+        {
+            "number":"I",
+            "name":"The Magician",
+            "keywords":["magician", "magic"],
+            "description":"Morgana",
+            "image":"https://static.wikia.nocookie.net/megamitensei/images/c/cb/Magician-0.png"
+        },
+
+        {
+            "number":"II",
+            "name":"The Priestess",
+            "keywords":["priestess"],
+            "description":"Makoto Niijima",
+            "image":"https://static.wikia.nocookie.net/megamitensei/images/a/ad/Priestess-0.png"
+        },
+
+        {
+            "number":"III",
+            "name":"The Empress",
+            "keywords":["empress"],
+            "description":"Haru Okumura",
+            "image":"https://static.wikia.nocookie.net/megamitensei/images/6/63/Empress-0.png"
+        },
+
+        {
+            "number":"IV",
+            "name":"The Emperor",
+            "keywords":["emperor"],
+            "description":"Yusuke Kitagawa",
+            "image":"https://static.wikia.nocookie.net/megamitensei/images/e/e6/Emperor-0.png"
+        },
+
+        {
+            "number":"V",
+            "name":"The Hierophant",
+            "keywords":["hierophant"],
+            "description":"Sojiro Sakura",
+            "image":"https://static.wikia.nocookie.net/megamitensei/images/f/f6/Hierophant-0.png"
+        },
+
+        {
+            "number":"VI",
+            "name":"The Lovers",
+            "keywords":["lovers"],
+            "description":"Ann Takamaki",
+            "image":"https://static.wikia.nocookie.net/megamitensei/images/a/a5/Lovers-0.png"
+        },
+
+        {
+            "number":"VII",
+            "name":"The Chariot",
+            "keywords":["chariot"],
+            "description":"Ryuji Sakamoto",
+            "image":"https://static.wikia.nocookie.net/megamitensei/images/1/15/Chariot-0.png"
+        },
+
+        {
+            "number":"VIII",
+            "name":"Justice",
+            "keywords":["justice"],
+            "description":"Goro Akechi",
+            "image":"https://static.wikia.nocookie.net/megamitensei/images/8/83/Justice-0.png"
+        },
+
+        {
+            "number":"IX",
+            "name":"The Hermit",
+            "keywords":["hermit"],
+            "description":"Futaba Sakura",
+            "image":"https://static.wikia.nocookie.net/megamitensei/images/a/ab/Hermit-0.png"
+        },
+
+        {
+            "number":"X",
+            "name":"The Wheel of Fortune",
+            "keywords":["wheel", "fortune"],
+            "description":"Chihaya Mifune",
+            "image":"https://static.wikia.nocookie.net/megamitensei/images/f/f3/Fortune-0.png"
+        },
+
+        {
+            "number":"XI",
+            "name":"Strength",
+            "keywords":["strength"],
+            "description":"Caroline and Justine",
+            "image":"https://static.wikia.nocookie.net/megamitensei/images/b/b0/Strength-0.png"
+        },
+
+        {
+            "number":"XII",
+            "name":"The Hanged Man",
+            "keywords":["hanged", "man"],
+            "description":"Munehisa Iwai",
+            "image":"https://static.wikia.nocookie.net/megamitensei/images/2/2f/Hanged_Man.png"
+        },
+
+        {
+            "number":"XIII",
+            "name":"Death",
+            "keywords":["death"],
+            "description":"Tae Takemi",
+            "image":"https://static.wikia.nocookie.net/megamitensei/images/d/df/Death-0.png"
+        },
+
+        {
+            "number":"XIV",
+            "name":"Temperance",
+            "keywords":["temperance"],
+            "description":"Sadayo Kawakami",
+            "image":"https://static.wikia.nocookie.net/megamitensei/images/2/2d/Temperance-0.png"
+        },
+
+        {
+            "number":"XV",
+            "name":"The Devil",
+            "keywords":["devil"],
+            "description":"Ichiko Ohya",
+            "image":"https://static.wikia.nocookie.net/megamitensei/images/4/4b/Devil-0.png"
+        },
+
+        {
+            "number":"XVI",
+            "name":"The Tower",
+            "keywords":["tower"],
+            "description":"Shinya Oda",
+            "image":"https://static.wikia.nocookie.net/megamitensei/images/1/1f/Tower-0.png"
+        },
+
+        {
+            "number":"XVII",
+            "name":"The Star",
+            "keywords":["star"],
+            "description":"Hifumi Togo",
+            "image":"https://static.wikia.nocookie.net/megamitensei/images/1/15/Star-0.png"
+        },
+
+        {
+            "number":"XVIII",
+            "name":"The Moon",
+            "keywords":["moon"],
+            "description":"Yuuki Mishima",
+            "image":"https://static.wikia.nocookie.net/megamitensei/images/c/ce/Moon-0.png"
+        },
+
+        {
+            "number":"XIX",
+            "name":"The Sun",
+            "keywords":["sun"],
+            "description":"Toranosuke Yoshida",
+            "image":"https://static.wikia.nocookie.net/megamitensei/images/f/ff/Sun-0.png"
+        },
+
+        {
+            "number":"XX",
+            "name":"Judgement",
+            "keywords":["judgement","judgment"],
+            "description":"Sae Niijima",
+            "image":"https://static.wikia.nocookie.net/megamitensei/images/b/b0/Judgement.png"
+        },
+
+        {
+            "number":"XXI",
+            "name":"The World",
+            "keywords":["world"],
+            "description":"Ren Amamiya",
+            "image":"https://static.wikia.nocookie.net/megamitensei/images/a/a9/World-0.png"
+        }
+    ]
+}

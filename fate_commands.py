@@ -4,15 +4,23 @@ from discord.ext import commands
 
 
 import fate_io
+from tarot_deck import Card
 from tarot_deck import Deck
 from tarot_deck import Diviner
-from fate_io import MessageType
+from fate_io import CardActionType, MessageType, sendCardInfo
 from fate_io import sendMessage
 
 class Player(Diviner):
     def __init__(self, player: discord.Member) -> None:
+        super().__init__()
         self.id = player
         self.deck = Deck()
+
+    def draw(self):
+        return super().draw(self.deck)
+
+    def shuffleDeck(self):
+        super().shuffleDeck(self.deck)
 
 
 class Fateweaver(commands.Cog):
@@ -46,17 +54,7 @@ class Fateweaver(commands.Cog):
             self.tabletop_channel = channel
             await sendMessage("Tabletop channel successfully set.", ctx.channel, MessageType.SUCCESS)
         else:
-            await sendMessage("Invalid aspect argument.", ctx.channel, MessageType.ERROR)
-
-    @setChannel.error
-    async def setCommandError(self, ctx: commands.Context, error: commands.CommandError) -> None:
-        if isinstance(error, commands.MissingPermissions):
-            message = "You do not have permission to use this command."
-        else:
-            message = str(error)
-
-        await sendMessage(message, ctx.channel, MessageType.ERROR)
-
+            raise commands.UserInputError("Invalid aspect argument.")
 
     @commands.command(name="register")
     async def registerPlayer(self, ctx: commands.Context) -> None:
@@ -64,16 +62,30 @@ class Fateweaver(commands.Cog):
 
         if ctx.author not in registered_players:
             new_player = Player(ctx.author)
+            new_player.shuffleDeck()
             self.player_list.append(new_player)
             await sendMessage(f"Registered player {ctx.author}", ctx.channel, MessageType.SUCCESS)
 
         else:
-            await sendMessage(f"Player {ctx.author} already registered", ctx.channel, MessageType.ERROR)
+            raise commands.CommandError(f"Player {ctx.author} already registered")
 
-    @commands.command()
-    async def play(self, ctx: commands.Context, *args) -> None:
+    @commands.command(name="draw")
+    async def drawCard(self, ctx: commands.Context) -> None:
+        player = next((player for player in self.player_list if player.id == ctx.author), None)
+        if (player != None):
+            card = player.draw()
+
+            if card is not None:
+                await sendCardInfo(ctx.author.name, card, ctx.channel, CardActionType.DRAW)
+            else:
+                raise commands.CommandError("Cannot draw card from empty deck.")
+        else:
+            raise commands.CommandError("You are not a registered player.")
+
+    @commands.command(name="play")
+    async def playCard(self, ctx: commands.Context, *args) -> None:
         if (self.tabletop_channel == None):
-            await sendMessage("Tabletop channel not set.", ctx.channel, MessageType.ERROR)
+            raise commands.CommandError("Tabletop channel not set.")
         else:
             await sendMessage("Test", self.tabletop_channel)
 

@@ -1,62 +1,39 @@
 from random import shuffle
-
-CARD_LIST = {0 : "The Fool", 1 : "The Magician", 2 : "The High Priestess", 3 : "The Empress",
-         4 : "The Emperor", 5 : "The Hierophant", 6 : "The Lovers", 7 : "The Chariot",
-         8 : "Justice", 9 : "The Hermit", 10: "Wheel of Fortune", 11: "Strength",
-         12: "The Hanged Man", 13: "Death", 14: "Temperance", 15: "The Devil",
-         16: "The Tower", 17: "The Star", 18: "The Moon", 19: "The Sun",
-         20: "Judgement", 21: "The World"}
-
-CARD_DESC = {
-    "The Fool" : "Igor",
-    "The Magician" : "Morgana",
-    "The High Priestess" : "Makoto Niijima",
-    "The Empress" : "Haru Okumura",
-    "The Emperor" : "Yusuke Kitagawa",
-    "The Hierophant" : "Sojiro Sakura",
-    "The Lovers" : "Ann Takamaki",
-    "The Chariot" : "Ryuji Sakamoto",
-    "Justice" : "Goro Akechi",
-    "The Hermit" : "Futaba Sakura",
-    "Wheel of Fortune" : "Chihaya Mifune",
-    "Strength" : "Caroline and Justine",
-    "The Hanged Man" : "Munehisa Iwai",
-    "Death" : "Tae Takemi",
-    "Temperance" : "Sadayo Kawakami",
-    "The Devil" : "Ichiko Ohya",
-    "The Tower" : "Shinya Oda",
-    "The Star" : "Hifumi Togo",
-    "The Moon" : "Yuuki Mishima",
-    "The Sun" : "Toranosuke Yoshida",
-    "Judgement" : "Sae Niijima",
-    "The World" : "Ren Amamiya",
-}
+import json
 
 class Card:
-    def __init__(self, number, name, desc):
+    def __init__(self, number: str, name: str, keys: list, desc: str, img_link: str):
         self.number = number
         self.name = name
+        self.keywords = keys
         self.description = desc
-        self.image = None
+        self.image = img_link
 
     def show(self):
         print(str(self))
 
     def __str__(self) -> str:
-        return str(self.number) + " " + self.name + "\n" + self.description
+        return self.number + " " + self.name + "\n" + self.description
 
 class Deck:
-    def __init__(self):
+    def __init__(self) -> None:
         self.cards = []
-        for number, card in CARD_LIST.items():
-            self.cards.append(Card(number, card, CARD_DESC[card]))
-            # print(self.cards[number].number, self.cards[number].name)
 
-    def shuffle(self):
+        with open("cards.json") as file:
+            card_dict: dict = json.load(file)
+
+        for card in card_dict["cards"]:
+            card = Card(card["number"], card["name"], card["keywords"], card["description"], card["image"])
+            self.cards.append(card)
+
+    def shuffle(self) -> None:
         shuffle(self.cards)
 
     def drawCard(self):
-        return self.cards.pop(0)
+        if len(self.cards) == 0:
+            return None
+        else:
+            return self.cards.pop(0)
 
     def insertCard(self, card):
         self.cards.append(card)
@@ -71,14 +48,19 @@ class Diviner:
 
     def draw(self, deck):
         card = deck.drawCard()
-        card.show()
-        self.hand.append(card)
+
+        if card is not None:
+            card.show()
+            self.hand.append(card)
+
+        return card
 
     def showHand(self):
         for card in self.hand:
             card.show()
 
     def playCard(self, card_name):
+        card_name = card_name.lower()
         card = next((card for card in self.hand if card.name == card_name), None)
         if (card != None):
             card.show()
