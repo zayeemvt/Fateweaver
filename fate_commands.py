@@ -13,7 +13,7 @@ from fate_io import sendMessage
 class Player(Diviner):
     def __init__(self, player: discord.Member) -> None:
         super().__init__()
-        self.id = player
+        self.member_data = player
         self.deck = Deck()
 
     def draw(self):
@@ -58,7 +58,7 @@ class Fateweaver(commands.Cog):
 
     @commands.command(name="register")
     async def registerPlayer(self, ctx: commands.Context) -> None:
-        registered_players = [player.id for player in self.player_list]
+        registered_players = [player.member_data for player in self.player_list]
 
         if ctx.author not in registered_players:
             new_player = Player(ctx.author)
@@ -71,12 +71,12 @@ class Fateweaver(commands.Cog):
 
     @commands.command(name="draw")
     async def drawCard(self, ctx: commands.Context) -> None:
-        player = next((player for player in self.player_list if player.id == ctx.author), None)
+        player = next((player for player in self.player_list if player.member_data == ctx.author), None)
         if (player != None):
             card = player.draw()
 
             if card is not None:
-                await sendCardInfo(ctx.author.name, card, ctx.channel, CardActionType.DRAW)
+                await sendCardInfo(ctx.author.nick, card, ctx.channel, CardActionType.DRAW)
             else:
                 raise commands.CommandError("Cannot draw card from empty deck.")
         else:
