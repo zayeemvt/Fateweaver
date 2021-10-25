@@ -72,22 +72,45 @@ class Fateweaver(commands.Cog):
     @commands.command(name="draw")
     async def drawCard(self, ctx: commands.Context) -> None:
         player = next((player for player in self.player_list if player.member_data == ctx.author), None)
-        if (player != None):
-            card = player.draw()
 
-            if card is not None:
-                await sendCardInfo(ctx.author.nick, card, ctx.channel, CardActionType.DRAW)
-            else:
-                raise commands.CommandError("Cannot draw card from empty deck.")
+        self.checkPlayerRegistered(player)
+
+        print(player.member_data.nick + " drew a card")
+        card = player.draw()
+
+        if card is not None:
+            player.sortHand()
+            await sendCardInfo(ctx.author.nick, card, ctx.channel, CardActionType.DRAW)
         else:
-            raise commands.CommandError("You are not a registered player.")
+            raise commands.CommandError("Cannot draw card from empty deck.")
+
+    @commands.command(name="hand")
+    async def showHand(self, ctx: commands.Context) -> None:
+        player = next((player for player in self.player_list if player.member_data == ctx.author), None)
+
+        self.checkPlayerRegistered(player)
+
+        print(player.member_data.nick + "'s hand:")
+        player.showHand()
+
+        
 
     @commands.command(name="play")
     async def playCard(self, ctx: commands.Context, *args) -> None:
         if (self.tabletop_channel == None):
             raise commands.CommandError("Tabletop channel not set.")
-        else:
-            await sendMessage("Test", self.tabletop_channel)
+        
+        player = next((player for player in self.player_list if player.member_data == ctx.author), None)
+
+        self.checkPlayerRegistered(player)
+
+        
+        print(player.member_data.nick + " played a card")
+        await sendMessage("Test", self.tabletop_channel)
+
+    def checkPlayerRegistered(self, player) -> None:
+        if (player == None):
+            raise commands.CommandError("You are not a registered player.")
 
 # For loading Cog
 def setup(bot: commands.Bot) -> None:

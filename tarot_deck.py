@@ -2,7 +2,8 @@ from random import shuffle
 import json
 
 class Card:
-    def __init__(self, number: str, name: str, keys: list, desc: str, img_link: str):
+    def __init__(self, id: int, number: str, name: str, keys: list, desc: str, img_link: str):
+        self.id = id
         self.number = number
         self.name = name
         self.keywords = keys
@@ -23,7 +24,7 @@ class Deck:
             card_dict: dict = json.load(file)
 
         for card in card_dict["cards"]:
-            card = Card(card["number"], card["name"], card["keywords"], card["description"], card["image"])
+            card = Card(card["id"], card["number"], card["name"], card["keywords"], card["description"], card["image"])
             self.cards.append(card)
 
     def shuffle(self) -> None:
@@ -58,6 +59,9 @@ class Diviner:
     def showHand(self):
         for card in self.hand:
             card.show()
+
+    def sortHand(self):
+        self.hand.sort(key=lambda card: card.id)
 
     def playCard(self, card_name):
         card_name = card_name.lower()

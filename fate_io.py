@@ -34,14 +34,16 @@ def makeEmbed(message: str, type: MessageType = MessageType.DEFAULT) -> discord.
 def makeCardEmbed(player_name: str, card: Card, type: CardActionType) -> discord.Embed:
     if (type == CardActionType.DRAW):
         action_string = " drew a card!"
+        action_image = "https://ffxiv.consolegameswiki.com/mediawiki/images/7/7f/Draw.png"
     elif (type == CardActionType.PLAY):
         action_string = "played a card!"
+        action_image = "https://ffxiv.consolegameswiki.com/mediawiki/images/9/90/Play.png"
 
     action_string = player_name + action_string
     card_string = card.number + ". " + card.name
     embed = discord.Embed(title=card_string, description=card.description, color=discord.Colour.gold())
     embed.set_image(url=card.image)
-    embed.set_footer(text=action_string, icon_url="https://ffxiv.consolegameswiki.com/mediawiki/images/7/7f/Draw.png")
+    embed.set_footer(text=action_string, icon_url=action_image)
 
     return embed
 
