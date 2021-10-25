@@ -87,7 +87,7 @@ class Fateweaver(commands.Cog):
         print(player.member_data.nick + "'s hand:")
         player.showHand()
 
-        await sendHandInfo(player.member_data.nick, player.hand, player.discard, ctx.channel)
+        await sendHandInfo(player.member_data.nick, player.hand, player.discard, len(player.deck.cards), ctx.channel)
         
 
     @commands.command(name="play")
@@ -102,13 +102,22 @@ class Fateweaver(commands.Cog):
         card = next((card for card in player.hand if any(key.lower() in card.keywords for key in args)), None)
 
         if (card == None):
-            raise commands.CommandError(f"Could not find card: {args}.")
+            raise commands.CommandError(f"Could not find card with keyword(s) \"{' '.join(args)}\" in your hand.")
         else:        
             print(player.member_data.nick + " played a card")
             player.playCard(card.name)
             await sendCardInfo(player.member_data.nick, card, self.tabletop_channel, CardActionType.PLAY)
             await sendMessage(f"You played {card.name}.", ctx.channel, MessageType.SUCCESS)
 
+    @commands.command(name="shuffle")
+    async def shuffleCards(self, ctx: commands.Context, *args) -> None:
+        player = next((player for player in self.player_list if player.member_data == ctx.author), None)
+
+        self.checkPlayerRegistered(player)
+
+        player.shuffleDeck()
+
+        await sendMessage("All of your cards have been reshuffled into the deck.", ctx.channel, MessageType.SUCCESS)
 
     def checkPlayerRegistered(self, player) -> None:
         if (player == None):

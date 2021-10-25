@@ -46,7 +46,7 @@ def makeCardEmbed(player_name: str, card: Card, type: CardActionType) -> discord
 
     return embed
 
-def makeHandEmbed(player_name: str, hand: list[Card], discard: list[Card]) -> discord.Embed:
+def makeHandEmbed(player_name: str, hand: list[Card], discard: list[Card], num_deck: int) -> discord.Embed:
     embed = discord.Embed(title="Drawn Cards", color=discord.Colour.blue())
 
     if len(hand) > 0:
@@ -67,6 +67,7 @@ def makeHandEmbed(player_name: str, hand: list[Card], discard: list[Card]) -> di
         discard_string = None
 
     embed.add_field(name="Discarded Cards", value=discard_string, inline=False)
+    embed.add_field(name="Remaining Cards in Deck", value=num_deck, inline=False)
 
     embed.set_footer(text=f"Viewing {player_name}'s cards", icon_url="https://ffxiv.consolegameswiki.com/mediawiki/images/f/f0/Minor_Arcana.png")
 
@@ -80,6 +81,6 @@ async def sendCardInfo(player_name: str, card: Card, channel: discord.TextChanne
     embed = makeCardEmbed(player_name, card, type)
     await channel.send(embed=embed)
 
-async def sendHandInfo(player_name: str, hand: list[Card], discard: list[Card], channel: discord.TextChannel) -> None:
-    embed = makeHandEmbed(player_name, hand, discard)
+async def sendHandInfo(player_name: str, hand: list[Card], discard: list[Card], num_deck: int, channel: discord.TextChannel) -> None:
+    embed = makeHandEmbed(player_name, hand, discard, num_deck)
     await channel.send(embed=embed)
