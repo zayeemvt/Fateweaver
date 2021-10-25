@@ -1,14 +1,8 @@
 import discord
-from discord import colour
 from discord.ext import commands
 
-
-import fate_io
-from tarot_deck import Card
-from tarot_deck import Deck
-from tarot_deck import Diviner
-from fate_io import CardActionType, MessageType, sendCardInfo
-from fate_io import sendMessage
+from tarot_deck import Card, Deck, Diviner
+from fate_io import CardActionType, MessageType, sendHandInfo, sendMessage, sendCardInfo
 
 class Player(Diviner):
     def __init__(self, player: discord.Member) -> None:
@@ -80,7 +74,7 @@ class Fateweaver(commands.Cog):
 
         if card is not None:
             player.sortHand()
-            await sendCardInfo(ctx.author.nick, card, ctx.channel, CardActionType.DRAW)
+            await sendCardInfo(player.member_data.nick, card, ctx.channel, CardActionType.DRAW)
         else:
             raise commands.CommandError("Cannot draw card from empty deck.")
 
@@ -93,6 +87,7 @@ class Fateweaver(commands.Cog):
         print(player.member_data.nick + "'s hand:")
         player.showHand()
 
+        await sendHandInfo(player.member_data.nick, player.hand, player.discard, ctx.channel)
         
 
     @commands.command(name="play")
@@ -104,9 +99,16 @@ class Fateweaver(commands.Cog):
 
         self.checkPlayerRegistered(player)
 
-        
-        print(player.member_data.nick + " played a card")
-        await sendMessage("Test", self.tabletop_channel)
+        card = next((card for card in player.hand if any(key.lower() in card.keywords for key in args)), None)
+
+        if (card == None):
+            raise commands.CommandError(f"Could not find card: {args}.")
+        else:        
+            print(player.member_data.nick + " played a card")
+            player.playCard(card.name)
+            await sendCardInfo(player.member_data.nick, card, self.tabletop_channel, CardActionType.PLAY)
+            await sendMessage(f"You played {card.name}.", ctx.channel, MessageType.SUCCESS)
+
 
     def checkPlayerRegistered(self, player) -> None:
         if (player == None):

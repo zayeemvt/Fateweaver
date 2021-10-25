@@ -62,9 +62,10 @@ class Diviner:
 
     def sortHand(self):
         self.hand.sort(key=lambda card: card.id)
+        self.discard.sort(key=lambda card: card.id)
 
     def playCard(self, card_name):
-        card_name = card_name.lower()
+        # card_name = card_name.lower()
         card = next((card for card in self.hand if card.name == card_name), None)
         if (card != None):
             card.show()
