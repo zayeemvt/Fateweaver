@@ -14,7 +14,6 @@ from dotenv import load_dotenv
 ## Discord bot script
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-GUILD = os.getenv('DISCORD_GUILD')
 
 bot = commands.Bot(command_prefix="~")
 

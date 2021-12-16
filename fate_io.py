@@ -6,16 +6,20 @@ from discord.message import Message
 
 from tarot_deck import Card
 
+# Classifies messages into different types
 class MessageType(Enum):
     DEFAULT = 1
     ERROR = 2
     SUCCESS = 3
 
+# Classifies player actions
 class CardActionType(Enum):
     DRAW = 1
     PLAY = 2
 
 def makeEmbed(message: str, type: MessageType = MessageType.DEFAULT) -> discord.Embed:
+    """Used to make general-purpose embeds"""
+
     embed = discord.Embed(description=message)
 
     if (type == MessageType.DEFAULT):
@@ -32,6 +36,9 @@ def makeEmbed(message: str, type: MessageType = MessageType.DEFAULT) -> discord.
     return embed
 
 def makeCardEmbed(player_name: str, card: Card, type: CardActionType) -> discord.Embed:
+    """Used to make embeds specific to card actions"""
+
+    # Choose message text and icon
     if (type == CardActionType.DRAW):
         action_string = player_name + " drew a card!"
         action_image = "https://ffxiv.consolegameswiki.com/mediawiki/images/7/7f/Draw.png"
@@ -39,6 +46,7 @@ def makeCardEmbed(player_name: str, card: Card, type: CardActionType) -> discord
         action_string = player_name + "played a card!"
         action_image = "https://ffxiv.consolegameswiki.com/mediawiki/images/9/90/Play.png"
 
+    # Create the embed
     card_string = card.number + ". " + card.name
     embed = discord.Embed(title=card_string, description=card.description, color=discord.Colour.gold())
     embed.set_image(url=card.image)
@@ -47,8 +55,11 @@ def makeCardEmbed(player_name: str, card: Card, type: CardActionType) -> discord
     return embed
 
 def makeHandEmbed(player_name: str, hand: list[Card], discard: list[Card], num_deck: int) -> discord.Embed:
+    """Used to make the embed representing the player's hand"""
+
     embed = discord.Embed(title="Drawn Cards", color=discord.Colour.blue())
 
+    # Add all cards in hand to a string, if there are any
     if len(hand) > 0:
         hand_string = ""
         for card in hand:
@@ -58,6 +69,7 @@ def makeHandEmbed(player_name: str, hand: list[Card], discard: list[Card], num_d
     
     embed.add_field(name="Cards in Hand", value=hand_string, inline=False)
 
+    # Add all cards in discard to a string, if there are any
     if len(discard) > 0:
         card = None
         discard_string = ""
@@ -74,13 +86,19 @@ def makeHandEmbed(player_name: str, hand: list[Card], discard: list[Card], num_d
     return embed
 
 async def sendMessage(message: str, channel: discord.TextChannel, type: MessageType = MessageType.DEFAULT) -> None:
+    """API function for sending a message through the bot"""
+
     embed = makeEmbed(message, type)
     await channel.send(embed=embed)
 
 async def sendCardInfo(player_name: str, card: Card, channel: discord.TextChannel, type: CardActionType) -> None:
+    """API function for sending card information through the bot"""
+
     embed = makeCardEmbed(player_name, card, type)
     await channel.send(embed=embed)
 
 async def sendHandInfo(player_name: str, hand: list[Card], discard: list[Card], num_deck: int, channel: discord.TextChannel) -> None:
+    """API function for sending hand information through the bot"""
+    
     embed = makeHandEmbed(player_name, hand, discard, num_deck)
     await channel.send(embed=embed)
