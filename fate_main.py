@@ -7,22 +7,33 @@ The main file for the Fateweaver bot.
 """
 
 import os
+import discord
 from discord.ext import commands
+import asyncio
 
 from dotenv import load_dotenv
+
+from fate_commands import Fateweaver
 
 ## Discord bot script
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
-bot = commands.Bot(command_prefix="~")
+intents = discord.Intents.default()
+intents.message_content = True
 
-bot.load_extension("fate_commands")
-bot.load_extension("fate_error")
+bot = commands.Bot(command_prefix="~", intents=intents)
 
-bot.run(TOKEN)
+async def load_extensions():
+    await bot.load_extension("fate_commands")
+    await bot.load_extension("fate_error")
 
+async def main():
+    async with bot:
+        await load_extensions()
+        await bot.start(TOKEN)
 
+asyncio.run(main())
 
 
 

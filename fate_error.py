@@ -27,5 +27,5 @@ class ErrorHandler(commands.Cog):
         await sendMessage(message, ctx.channel, MessageType.ERROR)
 
 
-def setup(bot: commands.Bot) -> None:
-    bot.add_cog(ErrorHandler(bot))
+async def setup(bot: commands.Bot) -> None:
+    await bot.add_cog(ErrorHandler(bot))

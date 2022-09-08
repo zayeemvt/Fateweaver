@@ -24,6 +24,12 @@ class Player(Diviner):
 
         super().shuffleDeck(self.deck)
 
+    def getName(self) -> str:
+        if self.member_data.nick is not None:
+            return self.member_data.nick
+        else:
+            return self.member_data.name
+
 
 class Fateweaver(commands.Cog):
     """
@@ -90,12 +96,12 @@ class Fateweaver(commands.Cog):
         player = next((player for player in self.player_list if player.member_data == ctx.author), None)
         self.checkPlayerRegistered(player) # Raises error if not registered
 
-        print(player.member_data.nick + " drew a card")
+        print(player.getName() + " drew a card")
         card = player.draw()
 
         if card is not None:
             player.sortHand() # Unnecessary, only sort when displaying
-            await sendCardInfo(player.member_data.nick, card, ctx.channel, CardActionType.DRAW)
+            await sendCardInfo(player.getName(), card, ctx.channel, CardActionType.DRAW)
         else:
             raise commands.CommandError("Cannot draw card from empty deck.")
 
@@ -108,10 +114,10 @@ class Fateweaver(commands.Cog):
         self.checkPlayerRegistered(player) # Raises error if not registered
 
         # NOTE: Will fail if player does not have a nickname
-        print(player.member_data.nick + "'s hand:")
+        print(player.getName() + "'s hand:")
         player.showHand()
 
-        await sendHandInfo(player.member_data.nick, player.hand, player.discard, len(player.deck.cards), ctx.channel)
+        await sendHandInfo(player.getName(), player.hand, player.discard, len(player.deck.cards), ctx.channel)
         
 
     @commands.command(name="play")
@@ -132,11 +138,11 @@ class Fateweaver(commands.Cog):
         if (card == None):
             raise commands.CommandError(f"Could not find card with keyword(s) \"{' '.join(args)}\" in your hand.")
         else:
-            print(player.member_data.nick + " played a card")
+            print(player.getName() + " played a card")
             player.playCard(card.name)
 
             # Send card play announcement to tabletop channel
-            await sendCardInfo(player.member_data.nick, card, self.tabletop_channel, CardActionType.PLAY)
+            await sendCardInfo(player.getName(), card, self.tabletop_channel, CardActionType.PLAY)
 
             # Send confirmation to user
             await sendMessage(f"You played {card.name}.", ctx.channel, MessageType.SUCCESS)
@@ -160,5 +166,5 @@ class Fateweaver(commands.Cog):
             raise commands.CommandError("You are not a registered player.")
 
 
-def setup(bot: commands.Bot) -> None:
-    bot.add_cog(Fateweaver(bot))
+async def setup(bot: commands.Bot) -> None:
+    await bot.add_cog(Fateweaver(bot))
