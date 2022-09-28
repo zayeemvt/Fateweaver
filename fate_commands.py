@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-from tarot_deck import Card, Deck, Diviner
+from tarot_deck import Card, Deck, Diviner, generateCardList
 from fate_io import CardActionType, MessageType, sendHandInfo, sendMessage, sendCardInfo
 
 class Player(Diviner):
@@ -24,6 +24,12 @@ class Player(Diviner):
 
         super().shuffleDeck(self.deck)
 
+    def getName(self) -> str:
+        if self.member_data.nick is not None:
+            return self.member_data.nick
+        else:
+            return self.member_data.name
+
 
 class Fateweaver(commands.Cog):
     """
@@ -32,8 +38,11 @@ class Fateweaver(commands.Cog):
 
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
-        self.player_list = []
+        self.guild_data = {}
+
         self.tabletop_channel = None
+
+        generateCardList()
 
     @commands.Cog.listener()
     async def on_ready(self) -> None:
@@ -63,39 +72,19 @@ class Fateweaver(commands.Cog):
         else:
             raise commands.UserInputError("Invalid aspect argument.")
 
-    @commands.command(name="register")
-    async def registerPlayer(self, ctx: commands.Context) -> None:
-        """Registers invoker as a player"""
-
-        registered_players = [player.member_data for player in self.player_list] # May deprecate to server data
-
-        # Check if user is already registered in server
-        if ctx.author not in registered_players:
-            # Add user as new player
-            new_player = Player(ctx.author)
-            new_player.shuffleDeck()
-            self.player_list.append(new_player)
-
-            await sendMessage(f"Registered player {ctx.author}", ctx.channel, MessageType.SUCCESS)
-
-        else:
-            # Otherwise, raise an error
-            raise commands.CommandError(f"Player {ctx.author} already registered")
-
     @commands.command(name="draw")
     async def drawCard(self, ctx: commands.Context) -> None:
         """Draws a card from the invoker's deck"""
 
         # Check if player is registered
-        player = next((player for player in self.player_list if player.member_data == ctx.author), None)
-        self.checkPlayerRegistered(player) # Raises error if not registered
+        player = self.getPlayer(ctx)
 
-        print(player.member_data.nick + " drew a card")
+        print(player.getName() + " drew a card")
         card = player.draw()
 
         if card is not None:
-            player.sortHand() # Unnecessary, only sort when displaying
-            await sendCardInfo(player.member_data.nick, card, ctx.channel, CardActionType.DRAW)
+            # player.sortHand() # Unnecessary, only sort when displaying
+            await sendCardInfo(player.getName(), card, ctx.channel, CardActionType.DRAW)
         else:
             raise commands.CommandError("Cannot draw card from empty deck.")
 
@@ -104,14 +93,13 @@ class Fateweaver(commands.Cog):
         """Display the invoker's hand and discard pile"""
 
         # Check if player is registered
-        player = next((player for player in self.player_list if player.member_data == ctx.author), None)
-        self.checkPlayerRegistered(player) # Raises error if not registered
+        player = self.getPlayer(ctx)
 
         # NOTE: Will fail if player does not have a nickname
-        print(player.member_data.nick + "'s hand:")
+        print(player.getName() + "'s hand:")
         player.showHand()
 
-        await sendHandInfo(player.member_data.nick, player.hand, player.discard, len(player.deck.cards), ctx.channel)
+        await sendHandInfo(player.getName(), player.getSortedHand(), player.getDiscard(), len(player.deck.card_nums), ctx.channel)
         
 
     @commands.command(name="play")
@@ -123,20 +111,25 @@ class Fateweaver(commands.Cog):
             raise commands.CommandError("Tabletop channel not set.")
         
         # Check if player is registered
-        player = next((player for player in self.player_list if player.member_data == ctx.author), None)
-        self.checkPlayerRegistered(player) # Raises error if not registered
+        player = self.getPlayer(ctx)
 
         # Find card in player's hand
-        card = next((card for card in player.hand if any(key.lower() in card.keywords for key in args)), None)
+        # card = next((card for card in player.hand if any(key.lower() in card.keywords for key in args)), None)
+
+        for key in args:
+            card = player.playCard(key)
+
+            if card is not None:
+                break
 
         if (card == None):
             raise commands.CommandError(f"Could not find card with keyword(s) \"{' '.join(args)}\" in your hand.")
         else:
-            print(player.member_data.nick + " played a card")
-            player.playCard(card.name)
+            print(player.getName() + " played a card")
+            # player.playCard(card.name)
 
             # Send card play announcement to tabletop channel
-            await sendCardInfo(player.member_data.nick, card, self.tabletop_channel, CardActionType.PLAY)
+            await sendCardInfo(player.getName(), card, self.tabletop_channel, CardActionType.PLAY)
 
             # Send confirmation to user
             await sendMessage(f"You played {card.name}.", ctx.channel, MessageType.SUCCESS)
@@ -146,19 +139,50 @@ class Fateweaver(commands.Cog):
         """Shuffles the invoker's cards back into the deck"""
 
         # Check if player is registered
-        player = next((player for player in self.player_list if player.member_data == ctx.author), None)
-        self.checkPlayerRegistered(player) # Raises error if not registered
+        player = self.getPlayer(ctx)
 
         player.shuffleDeck()
 
         await sendMessage("All of your cards have been reshuffled into the deck.", ctx.channel, MessageType.SUCCESS)
 
-    def checkPlayerRegistered(self, player) -> None:
-        """Verifies if player is registered or not"""
+    def getPlayer(self, ctx: commands.Context) -> Player:
+        if ctx.guild.id not in self.guild_data:
+            player_list = [Player(player) for player in ctx.guild.members]
+            self.guild_data[ctx.guild.id] = player_list
 
-        if (player == None):
-            raise commands.CommandError("You are not a registered player.")
+        player_list = self.guild_data[ctx.guild.id]
+
+        player = next((player for player in player_list if player.member_data == ctx.author), None)
+
+        if player == None:
+            self.guild_data[ctx.guild.id].append(Player(ctx.author))
+            player = self.guild_data[ctx.guild.id][-1]
+        
+        return player
 
 
-def setup(bot: commands.Bot) -> None:
-    bot.add_cog(Fateweaver(bot))
+
+    # def registerPlayer(self, player) -> None:
+    #     """Registers a player"""
+
+    #     registered_players = [player.member_data for player in self.player_list] # May deprecate to server data
+
+    #     # Check if user is already registered in server
+    #     if player not in registered_players:
+    #         # Add user as new player
+    #         new_player = Player(player)
+    #         new_player.shuffleDeck()
+    #         self.player_list.append(new_player)
+
+    #         # await sendMessage(f"Registered player {ctx.author}", ctx.channel, MessageType.SUCCESS)
+
+    # def checkPlayerRegistered(self, player) -> None:
+    #     """Verifies if player is registered or not"""
+
+    #     if (player == None):
+    #         # raise commands.CommandError("You are not a registered player.")
+
+
+
+async def setup(bot: commands.Bot) -> None:
+    await bot.add_cog(Fateweaver(bot))
