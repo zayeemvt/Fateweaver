@@ -43,7 +43,7 @@ def makeCardEmbed(player_name: str, card: Card, type: CardActionType) -> discord
         action_string = player_name + " drew a card!"
         action_image = "https://ffxiv.consolegameswiki.com/mediawiki/images/7/7f/Draw.png"
     elif (type == CardActionType.PLAY):
-        action_string = player_name + "played a card!"
+        action_string = player_name + " played a card!"
         action_image = "https://ffxiv.consolegameswiki.com/mediawiki/images/9/90/Play.png"
 
     # Create the embed

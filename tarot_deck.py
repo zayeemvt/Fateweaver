@@ -3,7 +3,6 @@ import json
 
 card_list = []
 
-# CALL THIS F
 def generateCardList():
     """
     Initializes the card list singleton.
@@ -21,18 +20,28 @@ def generateCardList():
         card_list.append(card)
 
 def getCard(index: int) -> 'Card':
+    """Retrieves Card object from card list"""
+
     return card_list[index]
 
 def getCardString(index: int) -> str:
+    """Retrieves Card object from card list in string format"""
+
     return str(card_list[index])
 
 def getCardName(index: int) -> str:
+    """Retrieves the name of Card object from card list"""
+
     return card_list[index].name
 
 def getCardKeywords(index: int) -> list[str]:
+    """Retrieves the keywords of Card object from card list"""
+
     return card_list[index].keywords
 
 def printCard(index: int) -> None:
+    """Prints Card object from card list to terminal"""
+
     card_list[index].show()
 
 class Card:
@@ -67,7 +76,7 @@ class Deck:
 
         shuffle(self.card_nums)
 
-    def drawCard(self) -> Card:
+    def drawCard(self) -> int:
         """Draw a card from the top of the deck"""
 
         if len(self.card_nums) == 0:
@@ -98,6 +107,8 @@ class Diviner:
     def draw(self, deck: Deck) -> Card:
         """Draw a card from the top of the deck"""
 
+        card = None
+
         card_index = deck.drawCard()
 
         # Check in case of empty deck
@@ -105,9 +116,10 @@ class Diviner:
             print("Drew card:")
             printCard(card_index)
             self.hand.append(card_index)
+            card = getCard(card_index)
 
         # Return the card for output information purposes
-        return getCard(card_index)
+        return card
 
     def showHand(self):
         """Display the current cards drawn"""
@@ -118,25 +130,30 @@ class Diviner:
             printCard(card_index)
     
     def getHand(self) -> list[Card]:
+        """Returns hand as list of Card objects"""
+
         return [card_list[index] for index in self.hand]
 
     def getSortedHand(self) -> list[Card]:
-        return [card_list[index] for index in self.hand].sort(key=lambda card: card.id)
+        """Returns hand as SORTED list of Card objects"""
+
+        cards = [card_list[index] for index in self.hand]
+        cards.sort(key=lambda card: card.id)
+
+        return cards
 
     def getDiscard(self) -> list[Card]:
+        """Returns discard pile as list of Card objects"""
+
         return [card_list[index] for index in self.discard]
     
     def getSortedDiscard(self) -> list[Card]:
-        return [card_list[index] for index in self.discard].sort(key=lambda card: card.id)
+        """Returns discard pile as SORTED list of Card objects"""
+        
+        cards = [card_list[index] for index in self.discard]
+        cards.sort(key=lambda card: card.id)
 
-    def sortHand(self):
-        """Sort cards in hand and in discard pile
-
-        This function may get deprecated to work with other, future functions."""
-
-        # Sort by card ID
-        self.hand.sort(key=lambda card: card.id)
-        self.discard.sort(key=lambda card: card.id)
+        return cards
 
     def playCard(self, card_name: str) -> Card:
         """Use the specified card, if it is in your hand"""
@@ -154,6 +171,8 @@ class Diviner:
             return None
     
     def findCardIndex(self, card_name: str) -> int:
+        """Searches for a card by name and returns the index, if it is in your hand"""
+
         card_name = card_name.lower()
 
         if len(self.hand) == 0:
@@ -167,7 +186,7 @@ class Diviner:
         
         return card_index
 
-    def shuffleDeck(self, deck: Deck):
+    def shuffleDeck(self, deck: Deck) -> None:
         """Return all cards in hand and discard to the deck, then shuffle"""
 
         # Get list of all cards on player
