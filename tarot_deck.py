@@ -116,6 +116,18 @@ class Diviner:
 
         for card_index in self.hand:
             printCard(card_index)
+    
+    def getHand(self) -> list[Card]:
+        return [card_list[index] for index in self.hand]
+
+    def getSortedHand(self) -> list[Card]:
+        return [card_list[index] for index in self.hand].sort(key=lambda card: card.id)
+
+    def getDiscard(self) -> list[Card]:
+        return [card_list[index] for index in self.discard]
+    
+    def getSortedDiscard(self) -> list[Card]:
+        return [card_list[index] for index in self.discard].sort(key=lambda card: card.id)
 
     def sortHand(self):
         """Sort cards in hand and in discard pile
@@ -126,16 +138,10 @@ class Diviner:
         self.hand.sort(key=lambda card: card.id)
         self.discard.sort(key=lambda card: card.id)
 
-    def playCard(self, card_name: str):
+    def playCard(self, card_name: str) -> Card:
         """Use the specified card, if it is in your hand"""
 
-        card_name = card_name.lower()
-
-        for card_index in self.hand:
-            if getCardName(card_index).lower() == card_name or card_name in getCardKeywords(card_index):
-                break
-            else:
-                card_index = -1
+        card_index = self.findCardIndex(card_name)
 
         # If successful, remove it from hand and place in discard pile
         if (card_index != -1):
@@ -143,6 +149,23 @@ class Diviner:
             printCard(card_index)
             self.hand.remove(card_index)
             self.discard.append(card_index)
+            return card_list[card_index]
+        else:
+            return None
+    
+    def findCardIndex(self, card_name: str) -> int:
+        card_name = card_name.lower()
+
+        if len(self.hand) == 0:
+            card_index = -1 
+
+        for card_index in self.hand:
+            if getCardName(card_index).lower() == card_name or card_name in getCardKeywords(card_index):
+                break
+            else:
+                card_index = -1
+        
+        return card_index
 
     def shuffleDeck(self, deck: Deck):
         """Return all cards in hand and discard to the deck, then shuffle"""
