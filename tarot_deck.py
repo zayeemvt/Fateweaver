@@ -3,7 +3,13 @@ import json
 
 card_list = []
 
+# CALL THIS F
 def generateCardList():
+    """
+    Initializes the card list singleton.
+    
+    YOU MUST CALL THIS FUNCTION FIRST IN ORDER FOR THE REST OF THE MODULE TO WORK!!
+    """
     # Load cards from JSON
     with open("cards.json") as file:
         card_dict: dict = json.load(file)
@@ -107,7 +113,7 @@ class Diviner:
         """Display the current cards drawn"""
 
         print("Current hand:")
-        
+
         for card_index in self.hand:
             printCard(card_index)
 
