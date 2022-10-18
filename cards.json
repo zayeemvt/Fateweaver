@@ -54,7 +54,7 @@
             "id":5,
             "number":"V",
             "name":"The Hierophant",
-            "keywords":["hierophant"],
+            "keywords":["hierophant", "hiero"],
             "short":"REACTION: Peek next three cards in deck + hand.",
             "description":"\n**REACTION**: *Clairvoyance*\n\nYou may peek at the next three cards of the target's deck, as well as the target's current hand. This card cannot be canceled out by Diligence (The Chariot).",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/f/f6/Hierophant-0.png"
@@ -204,7 +204,7 @@
             "id":20,
             "number":"XX",
             "name":"Judgement",
-            "keywords":["judgement","judgment"],
+            "keywords":["judgement","judgment","judge"],
             "short":"ACTION: Can't gain FP next round.",
             "description":"\n**ACTION**: *Indignation*\n\nTarget will not gain any FP on the next round. If Chicanery (The Devil) is used on this card, the targeted player cannot lose any FP instead.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/b/b0/Judgement.png"

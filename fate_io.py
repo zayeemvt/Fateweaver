@@ -16,6 +16,7 @@ class MessageType(Enum):
 class CardActionType(Enum):
     DRAW = 1
     PLAY = 2
+    VIEW = 3
 
 def makeEmbed(message: str, type: MessageType = MessageType.DEFAULT) -> discord.Embed:
     """Used to make general-purpose embeds"""
@@ -45,6 +46,9 @@ def makeCardEmbed(player_name: str, card: Card, type: CardActionType) -> discord
     elif (type == CardActionType.PLAY):
         action_string = player_name + " played a card!"
         action_image = "https://ffxiv.consolegameswiki.com/mediawiki/images/9/90/Play.png"
+    elif (type == CardActionType.VIEW):
+        action_string = "Viewing card"
+        action_image = "https://ffxiv.consolegameswiki.com/mediawiki/images/f/f0/Minor_Arcana.png"
 
     # Create the embed
     card_string = card.number + ". " + card.name

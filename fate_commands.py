@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-from tarot_deck import Card, Deck, Diviner, generateCardList
+from tarot_deck import Card, Deck, Diviner, generateCardList, getCard, findCardIndex
 from fate_io import CardActionType, MessageType, sendHandInfo, sendMessage, sendCardInfo
 
 class Player(Diviner):
@@ -134,6 +134,26 @@ class Fateweaver(commands.Cog):
 
             # Send confirmation to user
             await sendMessage(f"You played {card.name}.", ctx.channel, MessageType.SUCCESS)
+
+    @commands.command(name="view")
+    async def viewCard(self, ctx: commands.Context, *args) -> None:
+        """Displays the specified card for viewing"""
+
+        index = None
+        
+        for key in args:
+            index = findCardIndex(key)
+
+            if index != -1:
+                break
+        
+        if (index == -1):
+            raise commands.CommandError(f"Could not find card with keyword(s) \"{' '.join(args)}\".")
+        else:
+            card = getCard(index)
+            # Send card as message to player
+            await sendCardInfo(None, card, ctx.channel, CardActionType.VIEW)
+
 
     @commands.command(name="shuffle")
     async def shuffleCards(self, ctx: commands.Context, *args) -> None:

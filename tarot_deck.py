@@ -39,6 +39,15 @@ def getCardKeywords(index: int) -> list[str]:
 
     return card_list[index].keywords
 
+def findCardIndex(card_name: str) -> int:
+    card_name = card_name.lower()
+    
+    for card in card_list:
+        if card.name == card_name or card_name in card.keywords:
+            return card_list.index(card)
+    
+    return -1
+
 def printCard(index: int) -> None:
     """Prints Card object from card list to terminal"""
 
