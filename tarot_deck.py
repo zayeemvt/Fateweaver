@@ -15,8 +15,8 @@ def generateCardList():
 
     # Instantiate data as Card objects
     for card in card_dict["cards"]:
-        card = Card(card["id"], card["number"], card["name"],
-                    card["keywords"], card["description"], card["image"])
+        card = Card(card["id"], card["number"], card["name"], card["keywords"],
+                    card["short"], card["description"], card["image"])
         card_list.append(card)
 
 def getCard(index: int) -> 'Card':
@@ -49,11 +49,12 @@ class Card:
     A class used to represent a single card
     """
 
-    def __init__(self, id: int, number: str, name: str, keys: list, desc: str, img_link: str) -> None:
+    def __init__(self, id: int, number: str, name: str, keys: list, short: str, desc: str, img_link: str) -> None:
         self.id = id
         self.number = number
         self.name = name
         self.keywords = keys
+        self.short = short
         self.description = desc
         self.image = img_link
 
@@ -113,8 +114,8 @@ class Diviner:
 
         # Check in case of empty deck
         if card_index is not None:
-            print("Drew card:")
-            printCard(card_index)
+            # print("Drew card:")
+            # printCard(card_index)
             self.hand.append(card_index)
             card = getCard(card_index)
 
@@ -124,10 +125,10 @@ class Diviner:
     def showHand(self):
         """Display the current cards drawn"""
 
-        print("Current hand:")
+        # print("Current hand:")
 
-        for card_index in self.hand:
-            printCard(card_index)
+        # for card_index in self.hand:
+        #     printCard(card_index)
     
     def getHand(self) -> list[Card]:
         """Returns hand as list of Card objects"""
@@ -162,8 +163,8 @@ class Diviner:
 
         # If successful, remove it from hand and place in discard pile
         if (card_index != -1):
-            print("Played card:")
-            printCard(card_index)
+            # print("Played card:")
+            # printCard(card_index)
             self.hand.remove(card_index)
             self.discard.append(card_index)
             return card_list[card_index]

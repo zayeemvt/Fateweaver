@@ -5,7 +5,8 @@
             "number":"0",
             "name":"The Fool",
             "keywords":["fool"],
-            "description":"Igor",
+            "short":"REACTION: Draw 2 cards. +2 FP",
+            "description":"\n**REACTION**: *Hidden Ace*\n\nIf your deck is not empty, you may play this card to instantly draw two cards from your deck.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/5/53/Fool-0.png"
         },
 
@@ -14,7 +15,8 @@
             "number":"I",
             "name":"The Magician",
             "keywords":["magician", "magic"],
-            "description":"Morgana",
+            "short":"REACTION: Redraw last-played card. +2 FP",
+            "description":"\n**REACTION**: *Sleight of Hand*\n\nIf your discard pile is not empty, you may play this card to redraw your most-recently discarded card and return it to your hand.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/c/cb/Magician-0.png"
         },
 
@@ -23,7 +25,8 @@
             "number":"II",
             "name":"The Priestess",
             "keywords":["priestess"],
-            "description":"Makoto Niijima",
+            "short":"ACTION: Can't lose FP next round.",
+            "description":"\n**ACTION**: *Divine Providence*\n\nTarget becomes immune to any FP loss on the next round. If Chicanery (The Devil) is used on this card, the targeted player cannot gain FP instead.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/a/ad/Priestess-0.png"
         },
 
@@ -32,7 +35,8 @@
             "number":"III",
             "name":"The Empress",
             "keywords":["empress"],
-            "description":"Haru Okumura",
+            "short":"ACTION: Discard random card. -5 FP",
+            "description":"\n**ACTION**: *Regal Edict*\n\nTarget must discard a random card in their hand. The discarded card's effects will not be activated.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/6/63/Empress-0.png"
         },
 
@@ -41,7 +45,8 @@
             "number":"IV",
             "name":"The Emperor",
             "keywords":["emperor"],
-            "description":"Yusuke Kitagawa",
+            "short":"REACTION: Trigger conditional effects.",
+            "description":"\n**REACTION**: *Royal Authority*\n\nThe next card you play with a conditional effect will be guaranteed to activate its effect, even if its condition is not satisfied.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/e/e6/Emperor-0.png"
         },
 
@@ -50,7 +55,8 @@
             "number":"V",
             "name":"The Hierophant",
             "keywords":["hierophant"],
-            "description":"Sojiro Sakura",
+            "short":"REACTION: Peek next three cards in deck + hand.",
+            "description":"\n**REACTION**: *Clairvoyance*\n\nYou may peek at the next three cards of the target's deck, as well as the target's current hand. This card cannot be canceled out by Diligence (The Chariot).",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/f/f6/Hierophant-0.png"
         },
 
@@ -59,7 +65,8 @@
             "number":"VI",
             "name":"The Lovers",
             "keywords":["lovers"],
-            "description":"Ann Takamaki",
+            "short":"REACTION: Pick someone. +4 FP to you/+2 FP to target if both get series points this round.",
+            "description":"\n**REACTION**: *Synergy*\n\nIf both you and your target earn points this turn, you gain +4 FP and your target gains +2 FP. This card is unaffected by Chicanery (The Devil) and cannot be canceled out by Diligence (The Chariot). Perseverance (Strength) will apply to both you and your target. Only your target can be redirected by Nexus (The World).",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/a/a5/Lovers-0.png"
         },
 
@@ -68,7 +75,8 @@
             "number":"VII",
             "name":"The Chariot",
             "keywords":["chariot"],
-            "description":"Ryuji Sakamoto",
+            "short":"REACTION: Cancel the effects of a card played this round.",
+            "description":"\n**REACTION**: *Diligence*\n\nThe effects of the targeted card will be canceled out. You may play this card on another Chariot, allowing the original target's effects to persist. This card does not affect Synergy (The Lovers), Lunar Sigil (The Moon), Solar Crest (The Sun), or any cards that can only self-target.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/1/15/Chariot-0.png"
         },
 
@@ -77,7 +85,8 @@
             "number":"VIII",
             "name":"Justice",
             "keywords":["justice"],
-            "description":"Goro Akechi",
+            "short":"ACTION: Makes person lose FP if they made someone else lose FP.",
+            "description":"\n**ACTION**: *Retribution*\n\nIf the targeted card causes an FP loss, the player who played that card receives the same FP loss. This card cannot be redirected by Nexus (The World). Retribution's effects can be applied to any card affected by Chicanery (The Devil).",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/8/83/Justice-0.png"
         },
 
@@ -86,7 +95,8 @@
             "number":"IX",
             "name":"The Hermit",
             "keywords":["hermit"],
-            "description":"Futaba Sakura",
+            "short":"ACTION: +5 FP if you weren't targeted last round.",
+            "description":"\n**ACTION**: *Elucidation*\n\nIf you and your cards were not targeted during the previous round, you may play this card to gain +5 FP. This card is not affected by Chicanery (The Devil).",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/a/ab/Hermit-0.png"
         },
 
@@ -95,7 +105,8 @@
             "number":"X",
             "name":"The Wheel of Fortune",
             "keywords":["wheel", "fortune"],
-            "description":"Chihaya Mifune",
+            "short":"REACTION: On next guess, +1 FP for each point.",
+            "description":"\n**REACTION**: *Fortune's Bounty*\n\nEarn FP equal to the number of points you earn from your next guess. While under the effects of Royal Authority (The Emperor), gain the maximum possible FP.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/f/f3/Fortune-0.png"
         },
 
@@ -104,7 +115,8 @@
             "number":"XI",
             "name":"Strength",
             "keywords":["strength"],
-            "description":"Caroline and Justine",
+            "short":"REACTION: On FP gain/loss, +3 FP/-3 FP.",
+            "description":"\n**REACTION**: *Perseverance*\n\nIf the targeted card causes a direct gain/loss to a player's FP, that player receives an additional +3/-3 FP.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/b/b0/Strength-0.png"
         },
 
@@ -113,7 +125,8 @@
             "number":"XII",
             "name":"The Hanged Man",
             "keywords":["hanged", "man"],
-            "description":"Munehisa Iwai",
+            "short":"ACTION: Next round, +2 FP every time target is targeted by another player.",
+            "description":"\n**ACTION**: *Resilience*\n\nOn the next round, receive +2 FP whenever the targeted player is targeted by a different player's card. While under the effects of Royal Authority (The Emperor), this card's effect is immediately consumed and grants you +6 FP. The effects of Perseverance (Strength) are applied only once to this card.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/2/2f/Hanged_Man.png"
         },
 
@@ -122,7 +135,8 @@
             "number":"XIII",
             "name":"Death",
             "keywords":["death"],
-            "description":"Tae Takemi",
+            "short":"ACTION: -8 FP to target.",
+            "description":"\n**ACTION**: *Stygian Torment*\n\nThe target loses -8 FP.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/d/df/Death-0.png"
         },
 
@@ -131,7 +145,8 @@
             "number":"XIV",
             "name":"Temperance",
             "keywords":["temperance"],
-            "description":"Sadayo Kawakami",
+            "short":"ACTION: +5 FP to target.",
+            "description":"\n**ACTION**: *Fortitude*\n\nThe target gains +5 FP.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/2/2d/Temperance-0.png"
         },
 
@@ -140,7 +155,8 @@
             "number":"XV",
             "name":"The Devil",
             "keywords":["devil"],
-            "description":"Ichiko Ohya",
+            "short":"ACTION: Inverts FP gain/losses on certain cards.",
+            "description":"\n**ACTION**: *Chicanery*\n\nAny FP losses induced by the targeted card become FP gains, and any FP gains become FP losses. You may play The Devil on another Devil to cancel out the effects of the original.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/4/4b/Devil-0.png"
         },
 
@@ -149,7 +165,8 @@
             "number":"XVI",
             "name":"The Tower",
             "keywords":["tower"],
-            "description":"Shinya Oda",
+            "short":"ACTION: One person loses -6 FP. Everyone else loses -3 FP.",
+            "description":"\n**ACTION**: *Dominion*\n\nTarget player loses -6 FP, and all other players lose -3 FP. Chicanery (The Devil) and Perserverance (Strength) affects all targets. Nexus (The World) can only redirect the primary target, and the original target receives -3 FP instead.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/1/1f/Tower-0.png"
         },
 
@@ -158,7 +175,8 @@
             "number":"XVII",
             "name":"The Star",
             "keywords":["star"],
-            "description":"Hifumi Togo",
+            "short":"REACTION: Draw a card if nine cards have been played this round. +3 FP",
+            "description":"\n**REACTION**: *Constellation*\n\nIf nine or more cards have been played this round, you may play this card to draw a card from your deck and gain +3 FP. You may play this card instantly while under the effects of Royal Authority (The Emperor). This card is not affected by Chicanery (The Devil).",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/1/15/Star-0.png"
         },
 
@@ -167,7 +185,8 @@
             "number":"XVIII",
             "name":"The Moon",
             "keywords":["moon"],
-            "description":"Yuuki Mishima",
+            "short":"ACTION: Target draws one less card next round. -3 FP",
+            "description":"\n**ACTION**: *Lunar Sigil*\n\nTarget player will draw one fewer card than they normally would on their next turn. This effect is canceled if Solar Crest (The Sun) is also applied to the target while Lunar Sigil is active.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/c/ce/Moon-0.png"
         },
 
@@ -176,7 +195,8 @@
             "number":"XIX",
             "name":"The Sun",
             "keywords":["sun"],
-            "description":"Toranosuke Yoshida",
+            "short":"ACTION: Target draws one more card next round. +3 FP",
+            "description":"\n**ACTION**: *Solar Crest*\n\nTarget can draw an additional card on their next turn. This effect is canceled if Lunar Sigil (The Moon) is also applied to the target while Solar Crest is active.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/f/ff/Sun-0.png"
         },
 
@@ -185,7 +205,8 @@
             "number":"XX",
             "name":"Judgement",
             "keywords":["judgement","judgment"],
-            "description":"Sae Niijima",
+            "short":"ACTION: Can't gain FP next round.",
+            "description":"\n**ACTION**: *Indignation*\n\nTarget will not gain any FP on the next round. If Chicanery (The Devil) is used on this card, the targeted player cannot lose any FP instead.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/b/b0/Judgement.png"
         },
 
@@ -194,7 +215,8 @@
             "number":"XXI",
             "name":"The World",
             "keywords":["world"],
-            "description":"Ren Amamiya",
+            "short":"REACTION: Redirect certain card's effects.",
+            "description":"\n**REACTION**: *Nexus*\n\nRedirect the targeted card's effects to a different player, including yourself. You may play this card on another World, changing the recipient of the original target's effects.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/a/a9/World-0.png"
         }
     ]

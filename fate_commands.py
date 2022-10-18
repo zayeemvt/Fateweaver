@@ -74,18 +74,22 @@ class Fateweaver(commands.Cog):
             raise commands.UserInputError(f"Cannot find channel #{' '.join(channel)}")
 
     @commands.command(name="draw")
-    async def drawCard(self, ctx: commands.Context) -> None:
+    async def drawCard(self, ctx: commands.Context, arg:int = None) -> None:
         """Draws a card from the invoker's deck"""
 
         player = self.getPlayer(ctx)
 
-        print(player.getName() + " tried to draw a card")
-        card = player.draw() # If deck is empty, returns None
+        if arg is None or arg < 1:
+            arg = 1
 
-        if card is not None:
-            await sendCardInfo(player.getName(), card, ctx.channel, CardActionType.DRAW)
-        else:
-            raise commands.CommandError("Cannot draw card from empty deck.")
+        for i in range(0,arg):
+            print(player.getName() + " tried to draw a card")
+            card = player.draw() # If deck is empty, returns None
+
+            if card is not None:
+                await sendCardInfo(player.getName(), card, ctx.channel, CardActionType.DRAW)
+            else:
+                raise commands.CommandError("Cannot draw card from empty deck.")
 
     @commands.command(name="hand")
     async def showHand(self, ctx: commands.Context) -> None:

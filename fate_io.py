@@ -63,7 +63,7 @@ def makeHandEmbed(player_name: str, hand: list[Card], discard: list[Card], num_d
     if len(hand) > 0:
         hand_string = ""
         for card in hand:
-            hand_string = hand_string + card.number + ". " + card.name + " (" + card.description + ")\n"
+            hand_string = hand_string + card.number + ". " + card.name + "\n"
     else:
         hand_string = None
     
@@ -74,7 +74,7 @@ def makeHandEmbed(player_name: str, hand: list[Card], discard: list[Card], num_d
         card = None
         discard_string = ""
         for card in discard:
-            discard_string = discard_string + card.number + ". " + card.name + " (" + card.description + ")\n"
+            discard_string = discard_string + card.number + ". " + card.name + "\n"
     else:
         discard_string = None
 
