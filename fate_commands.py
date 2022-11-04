@@ -11,7 +11,7 @@ class Player(Diviner):
 
     def __init__(self, player: discord.Member) -> None:
         super().__init__()
-        self.member_data = player
+        self.id = player.id
         self.deck = Deck()
         #TODO: Add shuffle command here after testing phase is over
 
@@ -25,11 +25,11 @@ class Player(Diviner):
 
         super().shuffleDeck(self.deck)
 
-    def getName(self) -> str:
-        if self.member_data.nick is not None:
-            return self.member_data.nick
-        else:
-            return self.member_data.name
+    # def getName(self) -> str:
+    #     if self.member_data.nick is not None:
+    #         return self.member_data.nick
+    #     else:
+    #         return self.member_data.name
 
 
 class Fateweaver(commands.Cog):
@@ -83,11 +83,11 @@ class Fateweaver(commands.Cog):
             arg = 1
 
         for i in range(0,arg):
-            print(player.getName() + " tried to draw a card")
+            print(ctx.author.display_name + " tried to draw a card")
             card = player.draw() # If deck is empty, returns None
 
             if card is not None:
-                await sendCardInfo(player.getName(), card, ctx.channel, CardActionType.DRAW)
+                await sendCardInfo(ctx.author.display_name, card, ctx.channel, CardActionType.DRAW)
             else:
                 raise commands.CommandError("Cannot draw card from empty deck.")
 
@@ -98,11 +98,11 @@ class Fateweaver(commands.Cog):
         player = self.getPlayer(ctx)
 
         # Print info to terminal
-        print(player.getName() + "'s hand:")
+        print(ctx.author.display_name + "'s hand:")
         player.showHand()
 
         # Send message to Discord
-        await sendHandInfo(player.getName(), player.getSortedHand(), player.getDiscard(), len(player.deck.card_nums), ctx.channel)
+        await sendHandInfo(ctx.author.display_name, player.getSortedHand(), player.getDiscard(), len(player.deck.card_nums), ctx.channel)
         
 
     @commands.command(name="play")
@@ -127,10 +127,10 @@ class Fateweaver(commands.Cog):
         if (card == None):
             raise commands.CommandError(f"Could not find card with keyword(s) \"{' '.join(args)}\" in your hand.")
         else:
-            print(player.getName() + " played a card")
+            print(ctx.author.display_name + " played a card")
 
             # Send card play announcement to tabletop channel
-            await sendCardInfo(player.getName(), card, self.tabletop_channel, CardActionType.PLAY)
+            await sendCardInfo(ctx.author.display_name, card, self.tabletop_channel, CardActionType.PLAY)
 
             # Send confirmation to user
             await sendMessage(f"You played {card.name}.", ctx.channel, MessageType.SUCCESS)
@@ -175,7 +175,7 @@ class Fateweaver(commands.Cog):
         player_list = self.guild_data[ctx.guild.id]
 
         # Search for player in list
-        player = next((player for player in player_list if player.member_data == ctx.author), None)
+        player = next((player for player in player_list if player.id == ctx.author.id), None)
 
         # If player is not in the list, add them
         if player == None:
