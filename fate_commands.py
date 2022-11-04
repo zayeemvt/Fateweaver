@@ -4,6 +4,8 @@ from discord.ext import commands
 from tarot_deck import Card, Deck, Diviner, generateCardList, getCard, findCardIndex
 from fate_io import CardActionType, MessageType, sendHandInfo, sendMessage, sendCardInfo, sendDeckInfo
 
+MAX_DRAW = 5
+
 class Player(Diviner):
     """
     A class that represents a player on Discord
@@ -111,6 +113,8 @@ class Fateweaver(commands.Cog):
 
         if arg is None or arg < 1:
             arg = 1
+        elif arg > MAX_DRAW:
+            arg = MAX_DRAW
 
         for i in range(0,arg):
             print(ctx.author.display_name + " tried to draw a card")
