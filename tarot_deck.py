@@ -101,6 +101,9 @@ class Deck:
 
         self.card_nums.append(card_index)
 
+    def getCardList(self) -> list[Card]:
+        return [card_list[index] for index in self.card_nums]
+
     def __str__(self) -> str:
         return '\n'.join(getCardString(card_index) for card_index in self.card_nums)
 
@@ -161,6 +164,19 @@ class Diviner:
         """Returns discard pile as SORTED list of Card objects"""
         
         cards = [card_list[index] for index in self.discard]
+        cards.sort(key=lambda card: card.id)
+
+        return cards
+    
+    def getDeck(self) -> list[Card]:
+        """Returns deck as list of Card objects"""
+
+        return self.deck.getCardList()
+    
+    def getSortedDeck(self) -> list[Card]:
+        """Returns deck as SORTED list of Card objects"""
+        
+        cards = self.deck.getCardList()
         cards.sort(key=lambda card: card.id)
 
         return cards

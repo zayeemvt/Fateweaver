@@ -89,6 +89,46 @@ def makeHandEmbed(player_name: str, hand: list[Card], discard: list[Card], num_d
 
     return embed
 
+def makeDeckEmbed(player_name: str, hand: list[Card], discard: list[Card], deck: list[Card]) -> discord.Embed:
+    """Used to make the embed representing the player's hand"""
+
+    embed = discord.Embed(title="Player Cards", color=discord.Colour.blue())
+
+    # Add all cards in hand to a string, if there are any
+    if len(hand) > 0:
+        hand_string = ""
+        for card in hand:
+            hand_string = hand_string + card.number + ". " + card.name + "\n"
+    else:
+        hand_string = None
+    
+    embed.add_field(name="Cards in Hand", value=hand_string, inline=False)
+
+    if len(deck) > 0:
+        card = None
+        deck_string = ""
+        for card in deck:
+            deck_string = deck_string + card.number + ". " + card.name + "\n"
+    else:
+        deck_string = None
+
+    embed.add_field(name="Remaining Cards in Deck", value=deck_string, inline=False)
+
+    # Add all cards in discard to a string, if there are any
+    if len(discard) > 0:
+        card = None
+        discard_string = ""
+        for card in discard:
+            discard_string = discard_string + card.number + ". " + card.name + "\n"
+    else:
+        discard_string = None
+
+    embed.add_field(name="Discarded Cards", value=discard_string, inline=False)
+
+    embed.set_footer(text=f"Viewing {player_name}'s cards", icon_url="https://ffxiv.consolegameswiki.com/mediawiki/images/f/f0/Minor_Arcana.png")
+
+    return embed
+
 async def sendMessage(message: str, channel: discord.TextChannel, type: MessageType = MessageType.DEFAULT) -> None:
     """API function for sending a message through the bot"""
 
@@ -105,4 +145,10 @@ async def sendHandInfo(player_name: str, hand: list[Card], discard: list[Card], 
     """API function for sending hand information through the bot"""
     
     embed = makeHandEmbed(player_name, hand, discard, num_deck)
+    await channel.send(embed=embed)
+
+async def sendDeckInfo(player_name: str, hand: list[Card], discard: list[Card], deck: list[Card], channel: discord.TextChannel) -> None:
+    """API function for sending hand information through the bot"""
+    
+    embed = makeDeckEmbed(player_name, hand, discard, deck)
     await channel.send(embed=embed)

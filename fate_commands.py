@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 from tarot_deck import Card, Deck, Diviner, generateCardList, getCard, findCardIndex
-from fate_io import CardActionType, MessageType, sendHandInfo, sendMessage, sendCardInfo
+from fate_io import CardActionType, MessageType, sendHandInfo, sendMessage, sendCardInfo, sendDeckInfo
 
 class Player(Diviner):
     """
@@ -79,8 +79,7 @@ class Fateweaver(commands.Cog):
         """Resets a player's entire deck/hand"""
 
         if user != None:
-            ctx.author = user
-            player = self.getPlayer(ctx)
+            player = self.getPlayer(ctx.guild, user)
             player.shuffleDeck()
             message = user.display_name + " reset."
         else:
@@ -90,12 +89,25 @@ class Fateweaver(commands.Cog):
 
         await sendMessage(message, ctx.channel, MessageType.SUCCESS)
 
+    @commands.command(name="peek")
+    @commands.has_guild_permissions(administrator=True)
+    async def peekHand(self, ctx: commands.Context, user: discord.Member = None) -> None:
+        """Shows a player's entire hand and deck"""
+
+        player = self.getPlayer(ctx.guild, user)
+
+        # Print info to terminal
+        print(user.display_name + "'s hand:")
+        player.showHand()
+
+        # Send message to Discord
+        await sendDeckInfo(user.display_name, player.getSortedHand(), player.getDiscard(), player.getDeck(), ctx.channel)
 
     @commands.command(name="draw")
     async def drawCard(self, ctx: commands.Context, arg:int = None) -> None:
         """Draws a card from the invoker's deck"""
 
-        player = self.getPlayer(ctx)
+        player = self.getPlayer(ctx.guild, ctx.author)
 
         if arg is None or arg < 1:
             arg = 1
@@ -113,7 +125,7 @@ class Fateweaver(commands.Cog):
     async def showHand(self, ctx: commands.Context) -> None:
         """Display the invoker's hand and discard pile"""
 
-        player = self.getPlayer(ctx)
+        player = self.getPlayer(ctx.guild, ctx.author)
 
         # Print info to terminal
         print(ctx.author.display_name + "'s hand:")
@@ -131,7 +143,7 @@ class Fateweaver(commands.Cog):
         if (self.tabletop_channel == None):
             raise commands.CommandError("Tabletop channel not set.")
         
-        player = self.getPlayer(ctx)
+        player = self.getPlayer(ctx.guild, ctx.author)
 
         card = None
         
@@ -177,28 +189,28 @@ class Fateweaver(commands.Cog):
     async def shuffleCards(self, ctx: commands.Context, *args) -> None:
         """Shuffles the invoker's cards back into the deck"""
 
-        player = self.getPlayer(ctx)
+        player = self.getPlayer(ctx.guild, ctx.author)
 
         player.shuffleDeck()
 
         await sendMessage("All of your cards have been reshuffled into the deck.", ctx.channel, MessageType.SUCCESS)
 
-    def getPlayer(self, ctx: commands.Context) -> Player:
+    def getPlayer(self, guild: discord.guild, user: discord.Member) -> Player:
         # Check if guild exists in database
-        if ctx.guild.id not in self.guild_data:
+        if guild.id not in self.guild_data:
             # If not, generate player list
-            player_list = [Player(player) for player in ctx.guild.members]
-            self.guild_data[ctx.guild.id] = player_list
+            player_list = [Player(player) for player in guild.members]
+            self.guild_data[guild.id] = player_list
 
-        player_list = self.guild_data[ctx.guild.id]
+        player_list = self.guild_data[guild.id]
 
         # Search for player in list
-        player = next((player for player in player_list if player.id == ctx.author.id), None)
+        player = next((player for player in player_list if player.id == user.id), None)
 
         # If player is not in the list, add them
         if player == None:
-            self.guild_data[ctx.guild.id].append(Player(ctx.author))
-            player = self.guild_data[ctx.guild.id][-1]
+            self.guild_data[guild.id].append(Player(user))
+            player = self.guild_data[guild.id][-1]
         
         return player
 
