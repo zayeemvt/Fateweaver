@@ -79,15 +79,14 @@ class Fateweaver(commands.Cog):
 
     @commands.command(name="ping")
     async def ping(self,ctx: commands.Context) -> None:
-        """Basic test command for ping"""
+        """Basic test command for ping."""
 
         await sendMessage(f"Pong! {round(self.bot.latency * 1000)}ms", ctx.channel)
 
     @commands.command(name="tabletop")
     @commands.has_guild_permissions(administrator=True)
     async def setChannel(self, ctx: commands.Context, channel: discord.TextChannel) -> None:
-        """ADMIN ONLY
-        Sets the tabletop channel, where all game actions are displayed"""
+        """(ADMIN ONLY) Sets the server's tabletop channel, where all game actions are displayed."""
         guild = self.getGuild(ctx.guild)
 
         if channel in ctx.guild.channels:
@@ -99,7 +98,7 @@ class Fateweaver(commands.Cog):
     @commands.command(name="reset")
     @commands.has_guild_permissions(administrator=True)
     async def resetPlayer(self, ctx: commands.Context, user: discord.Member = None) -> None:
-        """Resets a player's entire deck/hand"""
+        """(ADMIN ONLY) Resets a player's entire deck/hand (or all players if none are specified)."""
 
         if user != None:
             player = self.getPlayer(ctx.guild, user)
@@ -114,8 +113,10 @@ class Fateweaver(commands.Cog):
 
     @commands.command(name="peek")
     @commands.has_guild_permissions(administrator=True)
-    async def peekHand(self, ctx: commands.Context, user: discord.Member = None) -> None:
-        """Shows a player's entire hand and deck"""
+    async def peekHand(self, ctx: commands.Context, user: discord.Member) -> None:
+        """(ADMIN ONLY) Shows a player's entire hand and deck."""
+        if user == None:
+            raise commands.UserInputError("Player not specified.")
 
         player = self.getPlayer(ctx.guild, user)
 
@@ -128,7 +129,7 @@ class Fateweaver(commands.Cog):
 
     @commands.command(name="draw")
     async def drawCard(self, ctx: commands.Context, arg:int = None) -> None:
-        """Draws a card from the invoker's deck"""
+        """Draw a card from your deck. Specify a number to draw multiple cards at once."""
 
         player = self.getPlayer(ctx.guild, ctx.author)
 
@@ -148,7 +149,7 @@ class Fateweaver(commands.Cog):
 
     @commands.command(name="hand")
     async def showHand(self, ctx: commands.Context) -> None:
-        """Display the invoker's hand and discard pile"""
+        """Display the your hand, discard pile, and number of cards remaining in your deck."""
 
         player = self.getPlayer(ctx.guild, ctx.author)
 
@@ -157,12 +158,12 @@ class Fateweaver(commands.Cog):
         player.showHand()
 
         # Send message to Discord
-        await sendHandInfo(ctx.author.display_name, player.getSortedHand(), player.getDiscard(), len(player.deck.card_nums), ctx.channel)
+        await sendHandInfo(ctx.author.display_name, player.getSortedHand(), player.getDiscard(), player.getSortedDeck(), ctx.channel)
         
 
     @commands.command(name="play")
     async def playCard(self, ctx: commands.Context, *args) -> None:
-        """Plays specified card from invoker's hand, if it exists"""
+        """Play a card from your hand."""
         guild = self.getGuild(ctx.guild)
 
         # Check if there is a tabletop channel
@@ -193,7 +194,7 @@ class Fateweaver(commands.Cog):
 
     @commands.command(name="view")
     async def viewCard(self, ctx: commands.Context, *args) -> None:
-        """Displays the specified card for viewing"""
+        """Display any card and its details. The card does not need to be in your hand."""
 
         index = None
         
@@ -213,7 +214,7 @@ class Fateweaver(commands.Cog):
 
     @commands.command(name="shuffle")
     async def shuffleCards(self, ctx: commands.Context, *args) -> None:
-        """Shuffles the invoker's cards back into the deck"""
+        """Reshuffles all cards in your hand and discard pile back into your deck."""
 
         player = self.getPlayer(ctx.guild, ctx.author)
 

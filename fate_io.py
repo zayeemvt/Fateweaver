@@ -58,7 +58,7 @@ def makeCardEmbed(player_name: str, card: Card, type: CardActionType) -> discord
 
     return embed
 
-def makeHandEmbed(player_name: str, hand: list[Card], discard: list[Card], num_deck: int) -> discord.Embed:
+def makeHandEmbed(player_name: str, hand: list[Card], discard: list[Card], deck: list[Card]) -> discord.Embed:
     """Used to make the embed representing the player's hand"""
 
     embed = discord.Embed(title="Drawn Cards", color=discord.Colour.blue())
@@ -83,7 +83,16 @@ def makeHandEmbed(player_name: str, hand: list[Card], discard: list[Card], num_d
         discard_string = None
 
     embed.add_field(name="Discarded Cards", value=discard_string, inline=False)
-    embed.add_field(name="Remaining Cards in Deck", value=num_deck, inline=False)
+
+    if len(deck) > 0:
+        card = None
+        deck_string = ""
+        for card in deck:
+            deck_string = deck_string + card.number + ". " + card.name + "\n"
+    else:
+        deck_string = None
+
+    embed.add_field(name="Remaining Cards in Deck", value=deck_string, inline=False)
 
     embed.set_footer(text=f"Viewing {player_name}'s cards", icon_url="https://ffxiv.consolegameswiki.com/mediawiki/images/f/f0/Minor_Arcana.png")
 
@@ -141,10 +150,10 @@ async def sendCardInfo(player_name: str, card: Card, channel: discord.TextChanne
     embed = makeCardEmbed(player_name, card, type)
     await channel.send(embed=embed)
 
-async def sendHandInfo(player_name: str, hand: list[Card], discard: list[Card], num_deck: int, channel: discord.TextChannel) -> None:
+async def sendHandInfo(player_name: str, hand: list[Card], discard: list[Card], deck: list[Card], channel: discord.TextChannel) -> None:
     """API function for sending hand information through the bot"""
     
-    embed = makeHandEmbed(player_name, hand, discard, num_deck)
+    embed = makeHandEmbed(player_name, hand, discard, deck)
     await channel.send(embed=embed)
 
 async def sendDeckInfo(player_name: str, hand: list[Card], discard: list[Card], deck: list[Card], channel: discord.TextChannel) -> None:
