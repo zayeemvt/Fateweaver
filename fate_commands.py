@@ -33,6 +33,26 @@ class Player(Diviner):
     #     else:
     #         return self.member_data.name
 
+class Guild():
+    """
+    A class that represents an individual Discord server
+    """
+
+    def __init__(self, guild: discord.guild) -> None:
+        self.tabletop_channel = None
+        self.player_list = [Player(player) for player in guild.members]
+
+    def findPlayer(self, user: discord.Member) -> Player:
+        # Search for player in list
+        player = next((player for player in self.player_list if player.id == user.id), None)
+
+        # If player is not in the list, add them
+        if player == None:
+            self.player_list.append(Player(user))
+            player = self.player_list[-1]
+        
+        return player
+
 
 class Fateweaver(commands.Cog):
     """
@@ -68,9 +88,10 @@ class Fateweaver(commands.Cog):
     async def setChannel(self, ctx: commands.Context, channel: discord.TextChannel) -> None:
         """ADMIN ONLY
         Sets the tabletop channel, where all game actions are displayed"""
+        guild = self.getGuild(ctx.guild)
 
         if channel in ctx.guild.channels:
-            self.tabletop_channel = channel
+            guild.tabletop_channel = channel
             await sendMessage("Tabletop channel successfully set.", ctx.channel, MessageType.SUCCESS)
         else:
             raise commands.UserInputError(f"Cannot find channel #{' '.join(channel)}")
@@ -85,7 +106,7 @@ class Fateweaver(commands.Cog):
             player.shuffleDeck()
             message = user.display_name + " reset."
         else:
-            for player in self.guild_data[ctx.guild.id]:
+            for player in self.getGuild(ctx.guild).player_list:
                 player.shuffleDeck()
             message = "All players reset."
 
@@ -142,9 +163,10 @@ class Fateweaver(commands.Cog):
     @commands.command(name="play")
     async def playCard(self, ctx: commands.Context, *args) -> None:
         """Plays specified card from invoker's hand, if it exists"""
+        guild = self.getGuild(ctx.guild)
 
         # Check if there is a tabletop channel
-        if (self.tabletop_channel == None):
+        if (guild.tabletop_channel == None):
             raise commands.CommandError("Tabletop channel not set.")
         
         player = self.getPlayer(ctx.guild, ctx.author)
@@ -164,7 +186,7 @@ class Fateweaver(commands.Cog):
             print(ctx.author.display_name + " played a card")
 
             # Send card play announcement to tabletop channel
-            await sendCardInfo(ctx.author.display_name, card, self.tabletop_channel, CardActionType.PLAY)
+            await sendCardInfo(ctx.author.display_name, card, guild.tabletop_channel, CardActionType.PLAY)
 
             # Send confirmation to user
             await sendMessage(f"You played {card.name}.", ctx.channel, MessageType.SUCCESS)
@@ -199,24 +221,16 @@ class Fateweaver(commands.Cog):
 
         await sendMessage("All of your cards have been reshuffled into the deck.", ctx.channel, MessageType.SUCCESS)
 
-    def getPlayer(self, guild: discord.guild, user: discord.Member) -> Player:
+    def getGuild(self, guild: discord.guild) -> Guild:
         # Check if guild exists in database
         if guild.id not in self.guild_data:
             # If not, generate player list
-            player_list = [Player(player) for player in guild.members]
-            self.guild_data[guild.id] = player_list
-
-        player_list = self.guild_data[guild.id]
-
-        # Search for player in list
-        player = next((player for player in player_list if player.id == user.id), None)
-
-        # If player is not in the list, add them
-        if player == None:
-            self.guild_data[guild.id].append(Player(user))
-            player = self.guild_data[guild.id][-1]
+            self.guild_data[guild.id] = Guild(guild)
         
-        return player
+        return self.guild_data[guild.id]
+
+    def getPlayer(self, guild: discord.guild, user: discord.Member) -> Player:
+        return self.getGuild(guild).findPlayer(user)
 
 
 
