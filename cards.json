@@ -24,7 +24,7 @@
             "id":2,
             "number":"II",
             "name":"The Priestess",
-            "keywords":["priestess"],
+            "keywords":["priestess", "priest"],
             "short":"ACTION: Can't lose FP next round.",
             "description":"\n**ACTION**: *Divine Providence*\n\nTarget becomes immune to any FP loss on the next round. If Chicanery (The Devil) is used on this card, the targeted player cannot gain FP instead.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/a/ad/Priestess-0.png"
@@ -144,7 +144,7 @@
             "id":14,
             "number":"XIV",
             "name":"Temperance",
-            "keywords":["temperance"],
+            "keywords":["temperance", "temper"],
             "short":"ACTION: +5 FP to target.",
             "description":"\n**ACTION**: *Fortitude*\n\nThe target gains +5 FP.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/2/2d/Temperance-0.png"

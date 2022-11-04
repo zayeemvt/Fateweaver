@@ -73,6 +73,24 @@ class Fateweaver(commands.Cog):
         else:
             raise commands.UserInputError(f"Cannot find channel #{' '.join(channel)}")
 
+    @commands.command(name="reset")
+    @commands.has_guild_permissions(administrator=True)
+    async def resetPlayer(self, ctx: commands.Context, user: discord.Member = None) -> None:
+        """Resets a player's entire deck/hand"""
+
+        if user != None:
+            ctx.author = user
+            player = self.getPlayer(ctx)
+            player.shuffleDeck()
+            message = user.display_name + " reset."
+        else:
+            for player in self.guild_data[ctx.guild.id]:
+                player.shuffleDeck()
+            message = "All players reset."
+
+        await sendMessage(message, ctx.channel, MessageType.SUCCESS)
+
+
     @commands.command(name="draw")
     async def drawCard(self, ctx: commands.Context, arg:int = None) -> None:
         """Draws a card from the invoker's deck"""
