@@ -15,7 +15,6 @@ class Player(Diviner):
     def __init__(self, hand: list[int] = None, discard: list[int] = None, deck_cards: list[int] = None) -> None:
         super().__init__(hand, discard)
         self.deck = Deck(deck_cards)
-        #TODO: Add shuffle command here after testing phase is over
 
         if deck_cards is None:
             self.shuffleDeck()
@@ -158,6 +157,43 @@ class Fateweaver(commands.Cog):
 
         # Send message to Discord
         await sendDeckInfo(user.display_name, player.getSortedHand(), player.getDiscard(), player.getDeck(), ctx.channel)
+    
+    @commands.command(name="restore")
+    @commands.has_guild_permissions(administrator=True)
+    async def restoreCard(self, ctx: commands.Context, user: discord.Member, dest: str, *args) -> None:
+        """(ADMIN ONLY) Moves a card into the specified card pile of the player."""
+        if user == None or type(user) is not discord.Member:
+            raise commands.UserInputError("Player not specified.")
+        elif dest == None or type(dest) is not str:
+            raise commands.UserInputError("Destination not specified.")
+        elif dest not in ["deck", "hand", "discard"]:
+            raise commands.UserInputError("Destination must be 'deck', 'hand', or 'discard'.")
+
+        player = self.getPlayer(ctx.guild, user)
+
+        card_ind = -1
+        
+        # Find card in player's hand
+        for key in args:
+            card_ind = findCardIndex(key)
+
+            if card_ind != -1:
+                break
+
+        if (card_ind == -1):
+            raise commands.CommandError(f"Could not find card with keyword(s) \"{' '.join(args)}\".")
+        else:
+            if card_ind in player.hand: player.hand.remove(card_ind)
+            elif card_ind in player.discard: player.discard.remove(card_ind)
+            elif card_ind in player.deck.card_nums: player.deck.card_nums.remove(card_ind)
+
+            if dest == "hand": player.hand.append(card_ind)
+            elif dest == "discard": player.discard.insert(0, card_ind)
+            elif dest == "deck": player.deck.card_nums.insert(0, card_ind)
+
+            message = "Restored " + getCard(card_ind).name + " to " + user.display_name + "'s " + dest + "."
+            await sendMessage(message, ctx.channel, MessageType.SUCCESS)
+        
 
     @commands.command(name="draw")
     async def drawCard(self, ctx: commands.Context, arg:int = None) -> None:
