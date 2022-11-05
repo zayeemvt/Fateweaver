@@ -3,7 +3,7 @@ from discord.ext import commands, tasks
 
 from tarot_deck import Card, Deck, Diviner, generateCardList, getCard, findCardIndex
 from fate_io import CardActionType, MessageType, sendHandInfo, sendMessage, sendCardInfo, sendDeckInfo
-from fate_data import saveData
+from fate_data import saveData, loadData
 
 MAX_DRAW = 5
 
@@ -58,7 +58,16 @@ class Fateweaver(commands.Cog):
 
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
+        
         self.guild_data = {}
+        
+        print("Loading data...")
+        try:
+            self.load()
+            print("Data loaded.")
+        except Exception:
+            self.guild_data = {}
+            print("No data to load.")
 
         generateCardList()
         self.save.start()
@@ -72,6 +81,22 @@ class Fateweaver(commands.Cog):
 
         # Set online status to show help command
         await self.bot.change_presence(activity=discord.Game(name=f"{self.bot.command_prefix}help"))
+
+    def load(self):
+        data = loadData()
+
+        for id in data:
+            guild = data[id]
+
+            player_list = {}
+
+            for user_id in guild["player_list"]:
+                player = guild["player_list"][user_id]
+                player_list[int(user_id)] = Player(player["hand"], player["discard"], player["deck"]["card_nums"])
+
+            self.guild_data[int(id)] = Guild(player_list, guild["tabletop_channel"])
+
+
 
     @tasks.loop(seconds=30.0)
     async def save(self):
@@ -112,7 +137,7 @@ class Fateweaver(commands.Cog):
             player.shuffleDeck()
             message = user.display_name + " reset."
         else:
-            for player in self.getGuild(ctx.guild).player_list:
+            for player in self.getGuild(ctx.guild).player_list.values():
                 player.shuffleDeck()
             message = "All players reset."
 
@@ -161,8 +186,8 @@ class Fateweaver(commands.Cog):
         player = self.getPlayer(ctx.guild, ctx.author)
 
         # Print info to terminal
-        print(ctx.author.display_name + "'s hand:")
-        player.showHand()
+        # print(ctx.author.display_name + "'s hand:")
+        # player.showHand()
 
         # Send message to Discord
         await sendHandInfo(ctx.author.display_name, player.getSortedHand(), player.getDiscard(), player.getSortedDeck(), ctx.channel)
