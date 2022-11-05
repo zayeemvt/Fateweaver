@@ -227,7 +227,7 @@ class Fateweaver(commands.Cog):
 
     @commands.command(name="redraw")
     async def redrawCard(self, ctx: commands.Context, *args) -> None:
-        """Play a card from your hand."""
+        """Redraw a card from your discard pile into your hand."""
         guild = self.getGuild(ctx.guild)
 
         # Check if there is a tabletop channel
