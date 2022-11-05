@@ -6,7 +6,7 @@
             "name":"The Fool",
             "keywords":["fool"],
             "short":"REACTION: Draw 2 cards. +2 FP",
-            "description":"\n**REACTION**: *Hidden Ace*\n\nIf your deck is not empty, you may play this card to instantly draw two cards from your deck.",
+            "description":"\n**REACTION**: *Hidden Ace*\n\nIf your deck is not empty, you may play this card to instantly draw two cards from your deck. +2 FP to self.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/5/53/Fool-0.png"
         },
 
@@ -16,7 +16,7 @@
             "name":"The Magician",
             "keywords":["magician", "magic"],
             "short":"REACTION: Redraw last-played card. +2 FP",
-            "description":"\n**REACTION**: *Sleight of Hand*\n\nIf your discard pile is not empty, you may play this card to redraw your most-recently discarded card and return it to your hand.",
+            "description":"\n**REACTION**: *Sleight of Hand*\n\nIf your discard pile is not empty, you may play this card to redraw your most-recently discarded card and return it to your hand. +2 FP to self.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/c/cb/Magician-0.png"
         },
 
@@ -36,7 +36,7 @@
             "name":"The Empress",
             "keywords":["empress"],
             "short":"ACTION: Discard random card. -5 FP",
-            "description":"\n**ACTION**: *Regal Edict*\n\nTarget must discard a random card in their hand. The discarded card's effects will not be activated.",
+            "description":"\n**ACTION**: *Regal Edict*\n\nTarget must discard a random card in their hand. The discarded card's effects will not be activated. -5 FP to target.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/6/63/Empress-0.png"
         },
 
@@ -186,7 +186,7 @@
             "name":"The Moon",
             "keywords":["moon"],
             "short":"ACTION: Target draws one less card next round. -3 FP",
-            "description":"\n**ACTION**: *Lunar Sigil*\n\nTarget player will draw one fewer card than they normally would on their next turn. This effect is canceled if Solar Crest (The Sun) is also applied to the target while Lunar Sigil is active.",
+            "description":"\n**ACTION**: *Lunar Sigil*\n\nTarget player will draw one fewer card than they normally would on their next turn. -3 FP to target. This effect is canceled if Solar Crest (The Sun) is also applied to the target while Lunar Sigil is active.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/c/ce/Moon-0.png"
         },
 
@@ -196,7 +196,7 @@
             "name":"The Sun",
             "keywords":["sun"],
             "short":"ACTION: Target draws one more card next round. +3 FP",
-            "description":"\n**ACTION**: *Solar Crest*\n\nTarget can draw an additional card on their next turn. This effect is canceled if Lunar Sigil (The Moon) is also applied to the target while Solar Crest is active.",
+            "description":"\n**ACTION**: *Solar Crest*\n\nTarget can draw an additional card on their next turn. +3 FP to target. This effect is canceled if Lunar Sigil (The Moon) is also applied to the target while Solar Crest is active.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/f/ff/Sun-0.png"
         },
 
