@@ -224,6 +224,35 @@ class Fateweaver(commands.Cog):
             # Send confirmation to user
             await sendMessage(f"You played {card.name}.", ctx.channel, MessageType.SUCCESS)
 
+
+    @commands.command(name="redraw")
+    async def redrawCard(self, ctx: commands.Context, *args) -> None:
+        """Play a card from your hand."""
+        guild = self.getGuild(ctx.guild)
+
+        # Check if there is a tabletop channel
+        if (guild.tabletop_channel == None):
+            raise commands.CommandError("Tabletop channel not set.")
+        
+        player = self.getPlayer(ctx.guild, ctx.author)
+
+        card = None
+        
+        # Find card in player's hand
+        for key in args:
+            card = player.redrawCard(key)
+
+            if card is not None:
+                break
+
+        if (card == None):
+            raise commands.CommandError(f"Could not find card with keyword(s) \"{' '.join(args)}\" in your discard pile.")
+        else:
+            print(ctx.author.display_name + " redrew a card")
+
+            # Send card play announcement to tabletop channel
+            await sendCardInfo(ctx.author.display_name, card, ctx.channel, CardActionType.REDRAW)
+
     @commands.command(name="view")
     async def viewCard(self, ctx: commands.Context, *args) -> None:
         """Display any card and its details. The card does not need to be in your hand."""

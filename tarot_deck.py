@@ -144,6 +144,69 @@ class Diviner:
         # Return the card for output information purposes
         return card
 
+    def playCard(self, card_name: str) -> Card:
+        """Use the specified card, if it is in your hand"""
+
+        card_index = self.findCardIndex(card_name, self.hand)
+
+        # If successful, remove it from hand and place in discard pile
+        if (card_index != -1):
+            # print("Played card:")
+            # printCard(card_index)
+            self.hand.remove(card_index)
+            self.discard.append(card_index)
+            return card_list[card_index]
+        else:
+            return None
+    
+    def redrawCard(self, card_name: str) -> Card:
+        """Redraws the specified card from the discard pile"""
+
+        card_index = self.findCardIndex(card_name, self.discard)
+
+        # If successful, remove it from discard pile and place in hand
+        if (card_index != -1):
+            # print("Redrawn card:")
+            # printCard(card_index)
+            self.discard.remove(card_index)
+            self.hand.append(card_index)
+            return card_list[card_index]
+        else:
+            return None
+    
+    def findCardIndex(self, card_name: str, card_list: list[int]) -> int:
+        """Searches for a card by name and returns the index, if it is in the specified card pile"""
+
+        card_name = card_name.lower()
+
+        if len(card_list) == 0:
+            card_index = -1 
+
+        for card_index in card_list:
+            if getCardName(card_index).lower() == card_name or card_name in getCardKeywords(card_index):
+                break
+            else:
+                card_index = -1
+        
+        return card_index
+
+    def shuffleDeck(self, deck: Deck) -> None:
+        """Return all cards in hand and discard to the deck, then shuffle"""
+
+        # Get list of all cards on player
+        player_cards = self.hand + self.discard
+
+        # Put every card back into the deck
+        for card_index in player_cards:
+            deck.insertCard(card_index)
+
+        # Empty out hand and discard pile
+        self.hand.clear()
+        self.discard.clear()
+
+        # Shuffle the deck with all of the cards
+        deck.shuffle()
+
     def showHand(self):
         """Display the current cards drawn"""
 
@@ -191,53 +254,6 @@ class Diviner:
 
         return cards
 
-    def playCard(self, card_name: str) -> Card:
-        """Use the specified card, if it is in your hand"""
-
-        card_index = self.findCardIndex(card_name)
-
-        # If successful, remove it from hand and place in discard pile
-        if (card_index != -1):
-            # print("Played card:")
-            # printCard(card_index)
-            self.hand.remove(card_index)
-            self.discard.append(card_index)
-            return card_list[card_index]
-        else:
-            return None
-    
-    def findCardIndex(self, card_name: str) -> int:
-        """Searches for a card by name and returns the index, if it is in your hand"""
-
-        card_name = card_name.lower()
-
-        if len(self.hand) == 0:
-            card_index = -1 
-
-        for card_index in self.hand:
-            if getCardName(card_index).lower() == card_name or card_name in getCardKeywords(card_index):
-                break
-            else:
-                card_index = -1
-        
-        return card_index
-
-    def shuffleDeck(self, deck: Deck) -> None:
-        """Return all cards in hand and discard to the deck, then shuffle"""
-
-        # Get list of all cards on player
-        player_cards = self.hand + self.discard
-
-        # Put every card back into the deck
-        for card_index in player_cards:
-            deck.insertCard(card_index)
-
-        # Empty out hand and discard pile
-        self.hand.clear()
-        self.discard.clear()
-
-        # Shuffle the deck with all of the cards
-        deck.shuffle()
 
 if __name__ == "__main__":
     generateCardList()
