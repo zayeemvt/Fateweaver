@@ -1,8 +1,9 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 
 from tarot_deck import Card, Deck, Diviner, generateCardList, getCard, findCardIndex
 from fate_io import CardActionType, MessageType, sendHandInfo, sendMessage, sendCardInfo, sendDeckInfo
+from fate_data import saveData
 
 MAX_DRAW = 5
 
@@ -63,9 +64,8 @@ class Fateweaver(commands.Cog):
         self.bot = bot
         self.guild_data = {}
 
-        self.tabletop_channel = None
-
         generateCardList()
+        self.save.start()
 
     @commands.Cog.listener()
     async def on_ready(self) -> None:
@@ -76,6 +76,17 @@ class Fateweaver(commands.Cog):
 
         # Set online status to show help command
         await self.bot.change_presence(activity=discord.Game(name=f"{self.bot.command_prefix}help"))
+
+    @tasks.loop(seconds=30.0)
+    async def save(self):
+        print("Saving data...")
+        saveData(self.guild_data)
+        print("Data saved.")
+
+    @save.before_loop
+    async def before_save(self):
+        print("Waiting...")
+        await self.bot.wait_until_ready()
 
     @commands.command(name="ping")
     async def ping(self,ctx: commands.Context) -> None:
@@ -90,7 +101,7 @@ class Fateweaver(commands.Cog):
         guild = self.getGuild(ctx.guild)
 
         if channel in ctx.guild.channels:
-            guild.tabletop_channel = channel
+            guild.tabletop_channel = channel.id
             await sendMessage("Tabletop channel successfully set.", ctx.channel, MessageType.SUCCESS)
         else:
             raise commands.UserInputError(f"Cannot find channel #{' '.join(channel)}")
@@ -187,7 +198,7 @@ class Fateweaver(commands.Cog):
             print(ctx.author.display_name + " played a card")
 
             # Send card play announcement to tabletop channel
-            await sendCardInfo(ctx.author.display_name, card, guild.tabletop_channel, CardActionType.PLAY)
+            await sendCardInfo(ctx.author.display_name, card, self.getTabletop(ctx.guild, guild.tabletop_channel), CardActionType.PLAY)
 
             # Send confirmation to user
             await sendMessage(f"You played {card.name}.", ctx.channel, MessageType.SUCCESS)
@@ -229,6 +240,9 @@ class Fateweaver(commands.Cog):
             self.guild_data[guild.id] = Guild(guild)
         
         return self.guild_data[guild.id]
+
+    def getTabletop(self, guild: discord.guild, id: int) -> discord.TextChannel:
+        return next((channel for channel in guild.channels if channel.id == id), None)
 
     def getPlayer(self, guild: discord.guild, user: discord.Member) -> Player:
         return self.getGuild(guild).findPlayer(user)
