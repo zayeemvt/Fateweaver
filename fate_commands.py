@@ -35,12 +35,9 @@ class Guild():
     A class that represents an individual Discord server
     """
 
-    def __init__(self, guild: discord.guild) -> None:
-        self.tabletop_channel = None
-        self.player_list = {}
-
-        for player in guild.members:
-            self.player_list[player.id] = Player()
+    def __init__(self, player_dict: dict[Player], tabletop: int = None) -> None:
+        self.tabletop_channel = tabletop
+        self.player_list = player_dict
 
     def findPlayer(self, user: discord.Member) -> Player:
         # Search for player in list
@@ -236,7 +233,12 @@ class Fateweaver(commands.Cog):
         # Check if guild exists in database
         if guild.id not in self.guild_data:
             # If not, generate player list
-            self.guild_data[guild.id] = Guild(guild)
+            player_list = {}
+
+            for player in guild.members:
+                player_list[player.id] = Player()
+
+            self.guild_data[guild.id] = Guild(player_list)
         
         return self.guild_data[guild.id]
 
