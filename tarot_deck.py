@@ -78,8 +78,11 @@ class Deck:
     A class used to represent a deck of cards by using an array of card indices
     """
 
-    def __init__(self) -> None:
-        self.card_nums = list(range(0, len(card_list)))
+    def __init__(self, card_num_list: list[int] = None) -> None:
+        if card_num_list is None:
+            self.card_nums = list(range(0, len(card_list)))
+        else:
+            self.card_nums = card_num_list
 
     def shuffle(self) -> None:
         """Shuffle the deck of cards"""
@@ -113,9 +116,16 @@ class Diviner:
     A class used to represent the person drawing and using cards
     """
 
-    def __init__(self):
-        self.hand = []
-        self.discard = []
+    def __init__(self, hand: list[int] = None, discard: list[int] = None):
+        if hand is None:
+            self.hand = []
+        else:
+            self.hand = hand
+
+        if discard is None:
+            self.discard = []
+        else:
+            self.discard = discard
 
     def draw(self, deck: Deck) -> Card:
         """Draw a card from the top of the deck"""

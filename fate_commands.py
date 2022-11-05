@@ -12,10 +12,13 @@ class Player(Diviner):
     A class that represents a player on Discord
     """
 
-    def __init__(self, player: discord.Member) -> None:
-        super().__init__()
-        self.deck = Deck()
+    def __init__(self, hand: list[int] = None, discard: list[int] = None, deck_cards: list[int] = None) -> None:
+        super().__init__(hand, discard)
+        self.deck = Deck(deck_cards)
         #TODO: Add shuffle command here after testing phase is over
+
+        if deck_cards is None:
+            self.shuffleDeck()
 
     def draw(self):
         """Draw a card from the player's own deck"""
@@ -34,11 +37,10 @@ class Guild():
 
     def __init__(self, guild: discord.guild) -> None:
         self.tabletop_channel = None
-        # self.player_list = [Player(player) for player in guild.members]
         self.player_list = {}
 
         for player in guild.members:
-            self.player_list[player.id] = Player(player)
+            self.player_list[player.id] = Player()
 
     def findPlayer(self, user: discord.Member) -> Player:
         # Search for player in list
@@ -46,7 +48,7 @@ class Guild():
 
         # If player is not in the list, add them
         if player == None:
-            self.player_list[user.id] = Player(user)
+            self.player_list[user.id] = Player()
             player = self.player_list[user.id]
         
         return player
