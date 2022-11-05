@@ -14,7 +14,6 @@ class Player(Diviner):
 
     def __init__(self, player: discord.Member) -> None:
         super().__init__()
-        self.id = player.id
         self.deck = Deck()
         #TODO: Add shuffle command here after testing phase is over
 
@@ -28,12 +27,6 @@ class Player(Diviner):
 
         super().shuffleDeck(self.deck)
 
-    # def getName(self) -> str:
-    #     if self.member_data.nick is not None:
-    #         return self.member_data.nick
-    #     else:
-    #         return self.member_data.name
-
 class Guild():
     """
     A class that represents an individual Discord server
@@ -41,16 +34,20 @@ class Guild():
 
     def __init__(self, guild: discord.guild) -> None:
         self.tabletop_channel = None
-        self.player_list = [Player(player) for player in guild.members]
+        # self.player_list = [Player(player) for player in guild.members]
+        self.player_list = {}
+
+        for player in guild.members:
+            self.player_list[player.id] = Player(player)
 
     def findPlayer(self, user: discord.Member) -> Player:
         # Search for player in list
-        player = next((player for player in self.player_list if player.id == user.id), None)
+        player = self.player_list.get(user.id, None)
 
         # If player is not in the list, add them
         if player == None:
-            self.player_list.append(Player(user))
-            player = self.player_list[-1]
+            self.player_list[user.id] = Player(user)
+            player = self.player_list[user.id]
         
         return player
 
@@ -132,8 +129,8 @@ class Fateweaver(commands.Cog):
         player = self.getPlayer(ctx.guild, user)
 
         # Print info to terminal
-        print(user.display_name + "'s hand:")
-        player.showHand()
+        # print(user.display_name + "'s hand:")
+        # player.showHand()
 
         # Send message to Discord
         await sendDeckInfo(user.display_name, player.getSortedHand(), player.getDiscard(), player.getDeck(), ctx.channel)
