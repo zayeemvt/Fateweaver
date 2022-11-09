@@ -193,7 +193,24 @@ class Fateweaver(commands.Cog):
 
             message = "Restored " + getCard(card_ind).name + " to " + user.display_name + "'s " + dest + "."
             await sendMessage(message, ctx.channel, MessageType.SUCCESS)
+
+    @commands.command(name="dshuffle")
+    @commands.has_guild_permissions(administrator=True)
+    async def deckShuffle(self, ctx: commands.Context, user: discord.Member) -> None:
+        """Shuffle the specified player's deck, and only their deck."""
         
+        if user == None:
+            raise commands.UserInputError("Player not specified.")
+
+        player = self.getPlayer(ctx.guild, user)
+
+        player.deck.shuffle()
+
+        message = "Shuffled " + user.display_name + "'s deck."
+
+        await sendMessage(message, ctx.channel, MessageType.SUCCESS)
+
+
 
     @commands.command(name="draw")
     async def drawCard(self, ctx: commands.Context, arg:int = None) -> None:
