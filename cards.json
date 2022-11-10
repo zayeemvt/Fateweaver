@@ -6,7 +6,7 @@
             "name":"The Fool",
             "keywords":["fool"],
             "short":"REACTION: Draw 2 cards. +2 FP",
-            "description":"\n**REACTION**: *Hidden Ace*\n\nIf your deck is not empty, you may play this card to instantly draw two cards from your deck. +2 FP to self.",
+            "description":"\n**REACTION**: *Hidden Ace*\n\n+2 FP to self. If your deck is not empty, you may play this card to instantly draw two cards from your deck.\n\nYou may play this card on yourself at any time.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/5/53/Fool-0.png"
         },
 
@@ -16,7 +16,7 @@
             "name":"The Magician",
             "keywords":["magician", "magic"],
             "short":"REACTION: Redraw last-played card. +2 FP",
-            "description":"\n**REACTION**: *Sleight of Hand*\n\nIf your discard pile is not empty, you may play this card to redraw your most-recently discarded card and return it to your hand. +2 FP to self.",
+            "description":"\n**REACTION**: *Sleight of Hand*\n\n+2 FP to self. If your discard pile is not empty, you may play this card to redraw your most-recently discarded card and return it to your hand.\n\nYou may play this card on yourself at any time.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/c/cb/Magician-0.png"
         },
 
@@ -26,7 +26,7 @@
             "name":"The Priestess",
             "keywords":["priestess", "priest"],
             "short":"ACTION: Can't lose FP next round.",
-            "description":"\n**ACTION**: *Divine Providence*\n\nTarget becomes immune to any FP loss on the next round. If Chicanery (The Devil) is used on this card, the targeted player cannot gain FP instead.",
+            "description":"\n**ACTION**: *Divine Providence*\n\nTarget becomes immune to any FP loss on the next round. If Chicanery (The Devil) is used on this card, the targeted player cannot gain FP instead.\n\nYou may play this card on any player, including yourself, before the next round begins.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/a/ad/Priestess-0.png"
         },
 
@@ -36,7 +36,7 @@
             "name":"The Empress",
             "keywords":["empress"],
             "short":"ACTION: Discard random card. -5 FP",
-            "description":"\n**ACTION**: *Regal Edict*\n\nTarget must discard a random card in their hand. The discarded card's effects will not be activated. -5 FP to target.",
+            "description":"\n**ACTION**: *Regal Edict*\n\n-5 FP to target. Target must discard a random card in their hand. The discarded card's effects will not be activated. If Diligence (The Chariot) is used on this card, the discarded card may be redrawn.\n\nYou may play this card on any player, including yourself, at any time during the card phase.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/6/63/Empress-0.png"
         },
 
@@ -46,7 +46,7 @@
             "name":"The Emperor",
             "keywords":["emperor"],
             "short":"REACTION: Trigger conditional effects.",
-            "description":"\n**REACTION**: *Royal Authority*\n\nThe next card you play with a conditional effect will be guaranteed to activate its effect, even if its condition is not satisfied.",
+            "description":"\n**REACTION**: *Royal Authority*\n\nThe next card you play with a conditional effect will be guaranteed to activate its effect, even if its condition is not satisfied.\n\nYou may play this card on yourself at any time.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/e/e6/Emperor-0.png"
         },
 
@@ -56,7 +56,7 @@
             "name":"The Hierophant",
             "keywords":["hierophant", "hiero"],
             "short":"REACTION: Peek next three cards in deck + hand.",
-            "description":"\n**REACTION**: *Clairvoyance*\n\nYou may peek at the next three cards of the target's deck, as well as the target's current hand. This card cannot be canceled out by Diligence (The Chariot).",
+            "description":"\n**REACTION**: *Clairvoyance*\n\nYou may peek at the next three cards of the target's deck, as well as the target's current hand. This card cannot be canceled out by Diligence (The Chariot) or redirected by Nexus (The World).\n\nYou may play this card on any player, including yourself, at any time.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/f/f6/Hierophant-0.png"
         },
 
@@ -66,7 +66,7 @@
             "name":"The Lovers",
             "keywords":["lovers"],
             "short":"REACTION: Pick someone. +4 FP to you/+2 FP to target if both get series points this round.",
-            "description":"\n**REACTION**: *Synergy*\n\nIf both you and your target earn points this turn, you gain +4 FP and your target gains +2 FP. This card is unaffected by Chicanery (The Devil) and cannot be canceled out by Diligence (The Chariot). Perseverance (Strength) will apply to both you and your target. Only your target can be redirected by Nexus (The World).",
+            "description":"\n**REACTION**: *Synergy*\n\nIf both you and your target earn points for series this turn, you gain +4 FP and your target gains +2 FP. This card is unaffected by Chicanery (The Devil) and cannot be canceled out by Diligence (The Chariot). Perseverance (Strength) will apply to both you and your target. Only your target can be redirected by Nexus (The World).\n\nYou may play this card on another player (not yourself) before you submit your guess.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/a/a5/Lovers-0.png"
         },
 
@@ -76,7 +76,7 @@
             "name":"The Chariot",
             "keywords":["chariot"],
             "short":"REACTION: Cancel the effects of a card played this round.",
-            "description":"\n**REACTION**: *Diligence*\n\nThe effects of the targeted card will be canceled out. You may play this card on another Chariot, allowing the original target's effects to persist. This card does not affect Synergy (The Lovers), Lunar Sigil (The Moon), Solar Crest (The Sun), or any cards that can only self-target.",
+            "description":"\n**REACTION**: *Diligence*\n\nThe effects of the targeted card will be canceled out. You may play this card on another Chariot, allowing the original target's effects to persist. This card does not affect Synergy (The Lovers), Lunar Sigil (The Moon), Solar Crest (The Sun), or any cards that can only self-target.\n\nYou may play this card on any card played during the round that can target any player, including your own card.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/1/15/Chariot-0.png"
         },
 
@@ -86,7 +86,7 @@
             "name":"Justice",
             "keywords":["justice"],
             "short":"ACTION: Makes person lose FP if they made someone else lose FP.",
-            "description":"\n**ACTION**: *Retribution*\n\nIf the targeted card causes an FP loss, the player who played that card receives the same FP loss. This card cannot be redirected by Nexus (The World). Retribution's effects can be applied to any card affected by Chicanery (The Devil).",
+            "description":"\n**ACTION**: *Retribution*\n\nIf the targeted card causes an FP loss, the player who played that card receives the same FP loss. This card cannot be redirected by Nexus (The World). Retribution's effects can be applied to any card affected by Chicanery (The Devil).\n\nYou may play this card on any card played during this round with an FP loss effect, including your own card.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/8/83/Justice-0.png"
         },
 
@@ -96,7 +96,7 @@
             "name":"The Hermit",
             "keywords":["hermit"],
             "short":"ACTION: +5 FP if you weren't targeted last round.",
-            "description":"\n**ACTION**: *Elucidation*\n\nIf you and your cards were not targeted during the previous round, you may play this card to gain +5 FP. This card is not affected by Chicanery (The Devil).",
+            "description":"\n**ACTION**: *Elucidation*\n\nIf you and your cards were not targeted during the previous round, you may play this card to gain +5 FP. This card is not affected by Chicanery (The Devil).\n\nYou may play this card on yourself at any time during the card phase.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/a/ab/Hermit-0.png"
         },
 
@@ -106,7 +106,7 @@
             "name":"The Wheel of Fortune",
             "keywords":["wheel", "fortune"],
             "short":"REACTION: On next guess, +1 FP for each point.",
-            "description":"\n**REACTION**: *Fortune's Bounty*\n\nEarn FP equal to the number of points you earn from your next guess. While under the effects of Royal Authority (The Emperor), gain the maximum possible FP.",
+            "description":"\n**REACTION**: *Fortune's Bounty*\n\nEarn FP equal to the number of points you earn from your next guess. While under the effects of Royal Authority (The Emperor), gain the maximum possible FP.\n\nYou may play this card on yourself before you submit your guess.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/f/f3/Fortune-0.png"
         },
 
@@ -116,7 +116,7 @@
             "name":"Strength",
             "keywords":["strength"],
             "short":"REACTION: On FP gain/loss, +3 FP/-3 FP.",
-            "description":"\n**REACTION**: *Perseverance*\n\nIf the targeted card causes a direct gain/loss to a player's FP, that player receives an additional +3/-3 FP.",
+            "description":"\n**REACTION**: *Perseverance*\n\nIf the targeted card causes a direct gain/loss to a player's FP, that player receives an additional +3/-3 FP.\n\nYou may play this card on any card played during this round with an FP gain or FP loss effect, including your own card.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/b/b0/Strength-0.png"
         },
 
@@ -126,7 +126,7 @@
             "name":"The Hanged Man",
             "keywords":["hanged", "man"],
             "short":"ACTION: Next round, +2 FP every time target is targeted by another player.",
-            "description":"\n**ACTION**: *Resilience*\n\nOn the next round, receive +2 FP whenever the targeted player is targeted by a different player's card. While under the effects of Royal Authority (The Emperor), this card's effect is immediately consumed and grants you +6 FP. The effects of Perseverance (Strength) are applied only once to this card.",
+            "description":"\n**ACTION**: *Resilience*\n\nOn the next round, receive +2 FP whenever the targeted player is targeted by a different player's card. While under the effects of Royal Authority (The Emperor), this card's effect is immediately consumed and grants you +6 FP. The effects of Perseverance (Strength) are applied only once to this card.\n\nYou may play this card on any player, including yourself, before the next round begins.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/2/2f/Hanged_Man.png"
         },
 
@@ -136,7 +136,7 @@
             "name":"Death",
             "keywords":["death"],
             "short":"ACTION: -8 FP to target.",
-            "description":"\n**ACTION**: *Stygian Torment*\n\nThe target loses -8 FP.",
+            "description":"\n**ACTION**: *Stygian Torment*\n\n-8 FP to target.\n\nYou may play this card on any player, including yourself, at any time during the card phase.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/d/df/Death-0.png"
         },
 
@@ -145,8 +145,8 @@
             "number":"XIV",
             "name":"Temperance",
             "keywords":["temperance", "temper"],
-            "short":"ACTION: +5 FP to target.",
-            "description":"\n**ACTION**: *Fortitude*\n\nThe target gains +5 FP.",
+            "short":"ACTION: +8 FP to target.",
+            "description":"\n**ACTION**: *Fortitude*\n\n+8 FP to target.\n\nYou may play this card on any player, including yourself, at any time during the card phase.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/2/2d/Temperance-0.png"
         },
 
@@ -156,7 +156,7 @@
             "name":"The Devil",
             "keywords":["devil"],
             "short":"ACTION: Inverts FP gain/losses on certain cards.",
-            "description":"\n**ACTION**: *Chicanery*\n\nAny FP losses induced by the targeted card become FP gains, and any FP gains become FP losses. You may play The Devil on another Devil to cancel out the effects of the original.",
+            "description":"\n**ACTION**: *Chicanery*\n\nAny FP losses induced by the targeted card become FP gains, and any FP gains become FP losses. You may play The Devil on another Devil to cancel out the effects of the original.\n\nYou may play this card on any card played during this round, including your own, but only during the card phase.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/4/4b/Devil-0.png"
         },
 
@@ -166,7 +166,7 @@
             "name":"The Tower",
             "keywords":["tower"],
             "short":"ACTION: One person loses -6 FP. Everyone else loses -3 FP.",
-            "description":"\n**ACTION**: *Dominion*\n\nTarget player loses -6 FP, and all other players lose -3 FP. Chicanery (The Devil) and Perserverance (Strength) affects all targets. Nexus (The World) can only redirect the primary target, and the original target receives -3 FP instead.",
+            "description":"\n**ACTION**: *Dominion*\n\nTarget player loses -6 FP, and all other players lose -3 FP. Chicanery (The Devil) and Perserverance (Strength) affects all targets. Nexus (The World) can only redirect the primary target, making the original target receive -3 FP instead. Retribution (Justice) will cause this card's owner to receive -4 FP.\n\nYou may play this card on any player, including yourself, at any time during the card phase.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/1/1f/Tower-0.png"
         },
 
@@ -176,7 +176,7 @@
             "name":"The Star",
             "keywords":["star"],
             "short":"REACTION: Draw a card if nine cards have been played this round. +3 FP",
-            "description":"\n**REACTION**: *Constellation*\n\nIf nine or more cards have been played this round, you may play this card to draw a card from your deck and gain +3 FP. You may play this card instantly while under the effects of Royal Authority (The Emperor). This card is not affected by Chicanery (The Devil).",
+            "description":"\n**REACTION**: *Constellation*\n\nIf nine or more cards have been played this round, you may play this card to draw a card from your deck and gain +3 FP. You may play this card instantly while under the effects of Royal Authority (The Emperor). This card is not affected by Chicanery (The Devil).\n\nYou may play this card on yourself after nine or more cards have been played in the current round.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/1/15/Star-0.png"
         },
 
@@ -186,7 +186,7 @@
             "name":"The Moon",
             "keywords":["moon"],
             "short":"ACTION: Target draws one less card next round. -3 FP",
-            "description":"\n**ACTION**: *Lunar Sigil*\n\nTarget player will draw one fewer card than they normally would on their next turn. -3 FP to target. This effect is canceled if Solar Crest (The Sun) is also applied to the target while Lunar Sigil is active.",
+            "description":"\n**ACTION**: *Lunar Sigil*\n\n-3 FP to target. Target player will draw one fewer card than they normally would on their next turn. This effect is canceled if Solar Crest (The Sun) is also applied to the target while Lunar Sigil is active.\n\nYou may play this card on any player, including yourself, before the next round begins.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/c/ce/Moon-0.png"
         },
 
@@ -196,7 +196,7 @@
             "name":"The Sun",
             "keywords":["sun"],
             "short":"ACTION: Target draws one more card next round. +3 FP",
-            "description":"\n**ACTION**: *Solar Crest*\n\nTarget can draw an additional card on their next turn. +3 FP to target. This effect is canceled if Lunar Sigil (The Moon) is also applied to the target while Solar Crest is active.",
+            "description":"\n**ACTION**: *Solar Crest*\n\n+3 FP to target. Target can draw an additional card on their next turn. This effect is canceled if Lunar Sigil (The Moon) is also applied to the target while Solar Crest is active.\n\nYou may play this card on any player, including yourself, before the next round begins.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/f/ff/Sun-0.png"
         },
 
@@ -206,7 +206,7 @@
             "name":"Judgement",
             "keywords":["judgement","judgment","judge"],
             "short":"ACTION: Can't gain FP next round.",
-            "description":"\n**ACTION**: *Indignation*\n\nTarget will not gain any FP on the next round. If Chicanery (The Devil) is used on this card, the targeted player cannot lose any FP instead.",
+            "description":"\n**ACTION**: *Indignation*\n\nTarget will not gain any FP on the next round. If Chicanery (The Devil) is used on this card, the targeted player cannot lose any FP instead.\n\nYou may play this card on any player, including yourself, before the next round begins.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/b/b0/Judgement.png"
         },
 
@@ -216,7 +216,7 @@
             "name":"The World",
             "keywords":["world"],
             "short":"REACTION: Redirect certain card's effects.",
-            "description":"\n**REACTION**: *Nexus*\n\nRedirect the targeted card's effects to a different player, including yourself. You may play this card on another World, changing the recipient of the original target's effects.",
+            "description":"\n**REACTION**: *Nexus*\n\nRedirect the targeted card's effects to a different player, including yourself. You may play this card on another World, changing the recipient of the original target's effects. This effect does not work on any cards that can only self-target.\n\nYou may play this card on any card played during this round that can target any player, including your own card.",
             "image":"https://static.wikia.nocookie.net/megamitensei/images/a/a9/World-0.png"
         }
     ]

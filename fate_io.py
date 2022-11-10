@@ -37,32 +37,37 @@ def makeEmbed(message: str, type: MessageType = MessageType.DEFAULT) -> discord.
 
     return embed
 
-def makeCardEmbed(player_name: str, card: Card, type: CardActionType) -> discord.Embed:
+def makeCardEmbed(player_name: str, avatar_url: str, card: Card, type: CardActionType) -> discord.Embed:
     """Used to make embeds specific to card actions"""
+   # Create the embed
+    card_string = card.number + ". " + card.name
+    embed = discord.Embed(title=card_string, description=card.description, color=discord.Colour.gold())
 
     # Choose message text and icon
     if (type == CardActionType.DRAW):
         action_string = player_name + " drew a card!"
         action_image = "https://ffxiv.consolegameswiki.com/mediawiki/images/7/7f/Draw.png"
+        action_text = "Draw"
     elif (type == CardActionType.PLAY):
         action_string = player_name + " played a card!"
         action_image = "https://ffxiv.consolegameswiki.com/mediawiki/images/9/90/Play.png"
+        action_text = "Play"
     elif (type == CardActionType.VIEW):
-        action_string = "Viewing card"
+        action_string = "Viewing card: " + card.name
         action_image = "https://ffxiv.consolegameswiki.com/mediawiki/images/f/f0/Minor_Arcana.png"
+        action_text = "View"
     elif (type == CardActionType.REDRAW):
         action_string = player_name + " redrew a card!"
         action_image = "https://ffxiv.consolegameswiki.com/mediawiki/images/6/66/Redraw.png"
+        action_text = "Redraw"
 
-    # Create the embed
-    card_string = card.number + ". " + card.name
-    embed = discord.Embed(title=card_string, description=card.description, color=discord.Colour.gold())
     embed.set_image(url=card.image)
-    embed.set_footer(text=action_string, icon_url=action_image)
+    embed.set_author(name=action_text, icon_url=action_image)
+    embed.set_footer(text=action_string, icon_url=avatar_url)
 
     return embed
 
-def makeHandEmbed(player_name: str, hand: list[Card], discard: list[Card], deck: list[Card]) -> discord.Embed:
+def makeHandEmbed(player_name: str, avatar_url: str, hand: list[Card], discard: list[Card], deck: list[Card]) -> discord.Embed:
     """Used to make the embed representing the player's hand"""
 
     embed = discord.Embed(title="Drawn Cards", color=discord.Colour.blue())
@@ -98,11 +103,12 @@ def makeHandEmbed(player_name: str, hand: list[Card], discard: list[Card], deck:
 
     embed.add_field(name="Remaining Cards in Deck", value=deck_string, inline=False)
 
-    embed.set_footer(text=f"Viewing {player_name}'s cards", icon_url="https://ffxiv.consolegameswiki.com/mediawiki/images/f/f0/Minor_Arcana.png")
+    embed.set_author(name="View", icon_url="https://ffxiv.consolegameswiki.com/mediawiki/images/f/f0/Minor_Arcana.png")
+    embed.set_footer(text=f"Viewing {player_name}'s cards", icon_url=avatar_url)
 
     return embed
 
-def makeDeckEmbed(player_name: str, hand: list[Card], discard: list[Card], deck: list[Card]) -> discord.Embed:
+def makeDeckEmbed(player_name: str, avatar_url: str, hand: list[Card], discard: list[Card], deck: list[Card]) -> discord.Embed:
     """Used to make the embed representing the player's hand"""
 
     embed = discord.Embed(title="Player Cards", color=discord.Colour.blue())
@@ -138,7 +144,8 @@ def makeDeckEmbed(player_name: str, hand: list[Card], discard: list[Card], deck:
 
     embed.add_field(name="Discarded Cards", value=discard_string, inline=False)
 
-    embed.set_footer(text=f"Viewing {player_name}'s cards", icon_url="https://ffxiv.consolegameswiki.com/mediawiki/images/f/f0/Minor_Arcana.png")
+    embed.set_author(name="View", icon_url="https://ffxiv.consolegameswiki.com/mediawiki/images/f/f0/Minor_Arcana.png")
+    embed.set_footer(text=f"Viewing {player_name}'s cards", icon_url=avatar_url)
 
     return embed
 
@@ -148,20 +155,20 @@ async def sendMessage(message: str, channel: discord.TextChannel, type: MessageT
     embed = makeEmbed(message, type)
     await channel.send(embed=embed)
 
-async def sendCardInfo(player_name: str, card: Card, channel: discord.TextChannel, type: CardActionType) -> None:
+async def sendCardInfo(player_name: str, avatar_url: str, card: Card, channel: discord.TextChannel, type: CardActionType) -> None:
     """API function for sending card information through the bot"""
 
-    embed = makeCardEmbed(player_name, card, type)
+    embed = makeCardEmbed(player_name, avatar_url, card, type)
     await channel.send(embed=embed)
 
-async def sendHandInfo(player_name: str, hand: list[Card], discard: list[Card], deck: list[Card], channel: discord.TextChannel) -> None:
+async def sendHandInfo(player_name: str, avatar_url: str, hand: list[Card], discard: list[Card], deck: list[Card], channel: discord.TextChannel) -> None:
     """API function for sending hand information through the bot"""
     
-    embed = makeHandEmbed(player_name, hand, discard, deck)
+    embed = makeHandEmbed(player_name, avatar_url, hand, discard, deck)
     await channel.send(embed=embed)
 
-async def sendDeckInfo(player_name: str, hand: list[Card], discard: list[Card], deck: list[Card], channel: discord.TextChannel) -> None:
+async def sendDeckInfo(player_name: str, avatar_url: str, hand: list[Card], discard: list[Card], deck: list[Card], channel: discord.TextChannel) -> None:
     """API function for sending hand information through the bot"""
     
-    embed = makeDeckEmbed(player_name, hand, discard, deck)
+    embed = makeDeckEmbed(player_name, avatar_url, hand, discard, deck)
     await channel.send(embed=embed)

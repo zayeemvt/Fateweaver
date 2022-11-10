@@ -156,7 +156,7 @@ class Fateweaver(commands.Cog):
         # player.showHand()
 
         # Send message to Discord
-        await sendDeckInfo(user.display_name, player.getSortedHand(), player.getDiscard(), player.getDeck(), ctx.channel)
+        await sendDeckInfo(user.display_name, user.avatar.url, player.getSortedHand(), player.getDiscard(), player.getDeck(), ctx.channel)
     
     @commands.command(name="restore")
     @commands.has_guild_permissions(administrator=True)
@@ -228,7 +228,7 @@ class Fateweaver(commands.Cog):
             card = player.draw() # If deck is empty, returns None
 
             if card is not None:
-                await sendCardInfo(ctx.author.display_name, card, ctx.channel, CardActionType.DRAW)
+                await sendCardInfo(ctx.author.display_name, ctx.author.avatar.url, card, ctx.channel, CardActionType.DRAW)
             else:
                 raise commands.CommandError("Cannot draw card from empty deck.")
 
@@ -243,7 +243,7 @@ class Fateweaver(commands.Cog):
         # player.showHand()
 
         # Send message to Discord
-        await sendHandInfo(ctx.author.display_name, player.getSortedHand(), player.getDiscard(), player.getSortedDeck(), ctx.channel)
+        await sendHandInfo(ctx.author.display_name, ctx.author.avatar.url, player.getSortedHand(), player.getDiscard(), player.getSortedDeck(), ctx.channel)
         
 
     @commands.command(name="play")
@@ -272,7 +272,7 @@ class Fateweaver(commands.Cog):
             print(ctx.author.display_name + " played a card")
 
             # Send card play announcement to tabletop channel
-            await sendCardInfo(ctx.author.display_name, card, self.getTabletop(ctx.guild, guild.tabletop_channel), CardActionType.PLAY)
+            await sendCardInfo(ctx.author.display_name, ctx.author.avatar.url, card, self.getTabletop(ctx.guild, guild.tabletop_channel), CardActionType.PLAY)
 
             # Send confirmation to user
             await sendMessage(f"You played {card.name}.", ctx.channel, MessageType.SUCCESS)
@@ -331,7 +331,7 @@ class Fateweaver(commands.Cog):
             print(ctx.author.display_name + " redrew a card")
 
             # Send card play announcement to tabletop channel
-            await sendCardInfo(ctx.author.display_name, card, ctx.channel, CardActionType.REDRAW)
+            await sendCardInfo(ctx.author.display_name, ctx.author.avatar.url, card, ctx.channel, CardActionType.REDRAW)
 
     @commands.command(name="view")
     async def viewCard(self, ctx: commands.Context, *args) -> None:
@@ -350,7 +350,7 @@ class Fateweaver(commands.Cog):
         else:
             card = getCard(index)
             # Send card as message to player
-            await sendCardInfo(None, card, ctx.channel, CardActionType.VIEW)
+            await sendCardInfo(ctx.author.display_name, ctx.author.avatar.url, card, ctx.channel, CardActionType.VIEW)
 
 
     @commands.command(name="shuffle")
